@@ -1,9 +1,11 @@
 clc; close all;
+projectDir = fileparts(fileparts(mfilename('fullpath')));
+addpath(fullfile(projectDir, 'include', 'export_fig'));
+addpath(fullfile(projectDir, 'include'));
 
 %% initialization
-projectDir = fileparts(fileparts(mfilename('fullpath')));
 modis_aod_file = 'Giovanni_MODIS_AOD.mat';
-addpath(fullfile(projectDir, 'src', 'export_fig'));
+imgFile = 'MODIS_AOD_2002-2018.png';
 
 %% load data
 load(fullfile(projectDir, 'data', modis_aod_file));
@@ -93,7 +95,7 @@ l.Color(4) = 0.7;
 l1 = plot([TerraTime(1), datenum(2011, 7, 1)], [mean([TerraMeanAODBefore2011, AquaMeanAODBefore2011]), mean([TerraMeanAODBefore2011, AquaMeanAODBefore2011])], '-g', 'LineWidth', 5);
 l1.Color(4) = 0.75;
 
-t1 = text(datenum(2004, 1, 1), 1.7, sprintf('Polluted period: AOD=%4.2f\\pm%4.2f', meanAODBefore2011, stdAODBefore2011), 'FontWeight', 'Bold', 'Interpreter', 'tex');
+t1 = text(datenum(2004, 1, 1), 1.3, sprintf('Polluted period: AOD=%4.2f\\pm%4.2f', meanAODBefore2011, stdAODBefore2011), 'FontWeight', 'Bold', 'Interpreter', 'tex');
 
 l2 = plot(meanAODTimeAfter2011, offset + slope * meanAODTimeAfter2011, '-g', 'LineWidth', 5);
 l2.Color(4) = 0.75;
@@ -124,4 +126,4 @@ legend([p1, p3, p2, p4], 'Location', 'NorthEast');
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 set(findall(gcf, '-Property', 'FontSize'), 'FontSize', 12);
 
-export_fig(gcf, fullfile(projectDir, 'img', 'MODIS_AOD_2002-2018.png'), '-r300');
+export_fig(gcf, fullfile(projectDir, 'img', imgFile), '-r300');
