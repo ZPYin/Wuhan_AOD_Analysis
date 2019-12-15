@@ -9,9 +9,9 @@ slCharacterEncoding('UTF-8');
 
 %% Parameter initialization
 AQI_DataFolder = 'D:\Data\全国空气质量';
-city = '鄂州';
+city = '武汉';
 station_city_lookup_file = '站点列表-2019.08.01起.csv';
-matFilename = 'ezhou_air_quality_data.mat';
+matFilename = 'wuhan_air_quality_data.mat';
 
 %% read data
 % read the station-city link table
