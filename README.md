@@ -38,7 +38,38 @@ and the air quality index ([AQI][3])
 
 ### Results
 
+#### Diurnal Variations
 
+![Diurnal_Var](img/diurnal-AQ-wuhan.png)
+
+- The concentration of PM2.5, PM10 and SO2 have the similar diurnal variations, which achieve the minima at 16:00 and increase after 18:00. The minima could be associated with the diurnal trend of mixing layer depth, which arrives the largest between 14:00 and 16:00. The increase after dusk could be explained by the weak atmospheric convection, which will accumulate the pollutants at the surface level.
+- NO2 and O3 are relative active gases, which have short lifetime. Therefore, the diurnal trends were all smoothed out.
+- AQI trend shows the minima at 16:00, which suggest the good time for taking outside exercise.
+
+#### Seasonal Variations
+
+![Seasonal_Var](img/seasonal-AQ-wuhan.png)
+
+- PM2.5, PM10, SO2, NO2, O3 and CO all have very clear seasonal variations. PM2.5, PM10, SO2, NO2 and O3 have the minimum concentration at summer and the maxima at winter, which is a clear indication of the effects of mixing layer depth. Because the mixing layer depth is the smallest (< 1km) at winter due to the weak latent heat flux and usually over 1.2 km at summer, which provide good convection conditions. Interestingly, the concentration of CO shows the adverse trend.
+- The difference between PM2.5 and PM10 was the largest at Spring, which could be partly contributed by pollen and transported dust particles.
+
+#### Annual Variations
+
+![Annual_Var](img/yearly-AQ-wuhan.png)
+
+- All pollutants except O3 continousely decreased since 2015. This can be corroborated by the results of MODIS AOD.
+
+#### AQI Levels
+
+![AQI_Levels](img/AQI-level-wuhan.png)
+
+- `No Hazardous` or worse conditions were found in Wuhan since 2015
+- The occurrences of `Unhealthy` and `Very Unhealthy` conditions are less than 13% and keep decreasing from 13% (2015) to 3% (2019)
+- `Hazardous` condition never happened in 2019. Meanwhile, `Good` and `Moderate` conditions keep increasing from 12% (2015) to 29% (2019) and from 49% (2015) to 57% (2019), respectively.
+
+## Contacts
+
+Zhenping <zp.yin@whu.edu.cn>
 
 [1]: https://giovanni.gsfc.nasa.gov/
 [2]: http://beijingair.sinaapp.com/

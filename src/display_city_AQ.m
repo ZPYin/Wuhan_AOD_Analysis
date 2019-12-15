@@ -104,6 +104,25 @@ for iYear = 1:length(yearlyTime)
                                 nanstd(CO(flag))];
 end
 
+% yearly AQI level
+yearlyTime = datenum(2015:2019, 7, 1);
+AQILevel = [0, 51, 101, 151, 201, 301, 501];
+AQILevel_label = {'Good', 'Moderate', 'Unhealthy for Sensitive Groups', 'Unhealthy', 'Very Unhealthy', 'Hazardous', 'Extreme Harmful'};
+AQILevel_color = [hex2rgb('#00e400');
+                  hex2rgb('#ffff00');
+                  hex2rgb('#ff7e00');
+                  hex2rgb('#ff0000');
+                  hex2rgb('#8f3f97');
+                  hex2rgb('#7e0023');
+                  hex2rgb('#000000')];
+yearlyAQILevel = NaN(7, length(yearlyTime));
+for iYear = 1:length(yearlyTime)
+    [yearList, ~, ~] = datevec(time);
+    [thisYear, ~, ~] = datevec(yearlyTime(iYear));
+    flag = (yearList == thisYear);
+    yearlyAQILevel(:, iYear) = [histc(AQI(flag), AQILevel)];
+end
+
 % seasonal-diurnal variations
 diurnalTime = datenum(0, 1, 0, 0:23, 30, 0);
 seasonalMonths = [3, 4, 5; 6, 7, 8; 9, 10, 11; 12, 1, 2];   % 4 * 3
@@ -391,7 +410,7 @@ set(gca, 'XTick', seasonalTime, 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTic
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
-legend([b1, b2], 'Location', 'NorthEast');
+legend([b1, b2], 'Location', 'NorthWest');
 
 % right-top (AQI)
 subplot('Position', figPos(2, :), 'Units', 'Normalized');
@@ -411,7 +430,7 @@ set(gca, 'XTick', seasonalTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTic
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % mid-left (SO2)
 subplot('Position', figPos(3, :), 'Units', 'Normalized');
@@ -426,7 +445,7 @@ set(gca, 'XTick', seasonalTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTic
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % mid-right (NO2)
 subplot('Position', figPos(4, :), 'Units', 'Normalized');
@@ -446,7 +465,7 @@ set(gca, 'XTick', seasonalTime, 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick',
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % bottom-left (O3)
 subplot('Position', figPos(5, :), 'Units', 'Normalized');
@@ -460,7 +479,7 @@ ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
 set(gca, 'XTick', seasonalTime, 'XTickLabel', {'MAM', 'JJA', 'SON', 'DJF'}, 'YTick', 20:20:80, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 xlim([0, 5]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % bottom-right (CO)
 subplot('Position', figPos(6, :), 'Units', 'Normalized');
@@ -479,7 +498,7 @@ ylim([0, 150]);
 set(gca, 'XTick', seasonalTime, 'XTickLabel', {'MAM', 'JJA', 'SON', 'DJF'}, 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 xlim([0, 5]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 text(0, 3.1, 'Seasonal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
@@ -505,7 +524,7 @@ set(gca, 'XTick', yearlyTime, 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick'
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
-legend([b1, b2], 'Location', 'NorthEast');
+legend([b1, b2], 'Location', 'NorthWest');
 
 % right-top (AQI)
 subplot('Position', figPos(2, :), 'Units', 'Normalized');
@@ -525,7 +544,7 @@ set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick'
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % mid-left (SO2)
 subplot('Position', figPos(3, :), 'Units', 'Normalized');
@@ -540,14 +559,14 @@ set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick'
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % mid-right (NO2)
 subplot('Position', figPos(4, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(5, :), 0.5, 'm', 'DisplayName', 'NO2');
 
 xlim([floor(time(1)), ceil(time(end)) + 1]);
-ylim([0, 100]);
+ylim([0, 30]);
 set(gca, 'YTickLabel', '');
 
 yyaxis right
@@ -560,7 +579,7 @@ set(gca, 'XTick', yearlyTime, 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick', '
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % bottom-left (O3)
 subplot('Position', figPos(5, :), 'Units', 'Normalized');
@@ -575,7 +594,7 @@ set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
 % bottom-right (CO)
 subplot('Position', figPos(6, :), 'Units', 'Normalized');
@@ -595,9 +614,9 @@ set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
-legend([b1], 'Location', 'NorthEast');
+legend([b1], 'Location', 'NorthWest');
 
-text(0, 3.1, 'Yearly variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 3.1, 'Annual variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
@@ -1112,3 +1131,47 @@ text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cent
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-CO-wuhan.png'), '-r300');
+
+%% yearly AQI level
+figure('Position', [0, 30, 500, 700], 'Units', 'Pixels');
+
+figPos = subfigPos([0.02, 0.01, 0.95, 0.95], 3, 2, 0, 0.07);
+
+ax1 = subplot('Position', figPos(1, :), 'Units', 'Normalized');
+
+p1 = pie(ax1, yearlyAQILevel([1, 6, 3, 4, 5, 2], 1), [0, 0, 1, 0, 1, 0]);
+title('2015', 'FontSize', 14);
+colormap(ax1, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+
+ax2 = subplot('Position', figPos(2, :), 'Units', 'Normalized');
+
+p2 = pie(ax2, yearlyAQILevel([1, 6, 3, 4, 5, 2], 2), [0, 0, 1, 0, 1, 0]);
+title('2016', 'FontSize', 14);
+colormap(ax2, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+
+ax3 = subplot('Position', figPos(3, :), 'Units', 'Normalized');
+
+p3 = pie(ax3, yearlyAQILevel([1, 6, 3, 4, 5, 2], 3), [0, 0, 1, 0, 1, 0]);
+title('2017', 'FontSize', 14);
+colormap(ax3, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+
+ax4 = subplot('Position', figPos(4, :), 'Units', 'Normalized');
+
+p4 = pie(ax4, yearlyAQILevel([1, 6, 3, 4, 5, 2], 4), [0, 0, 1, 0, 1, 0]);
+title('2018', 'FontSize', 14);
+
+colormap(ax4, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+
+ax5 = subplot('Position', figPos(5, :), 'Units', 'Normalized');
+
+p5 = pie(ax5, yearlyAQILevel([1, 6, 3, 4, 5, 2], 5), [0, 0, 1, 0, 1, 0]);
+title('2019', 'FontSize', 14);
+
+colormap(ax5, AQILevel_color([1, 3, 4, 5, 2], :));
+
+ax6 = subplot('Position', [-10, -10, 1, 1], 'Units', 'Normalized');
+p6 = pie(ax6, ones(1, 7));
+colormap(ax6, AQILevel_color);
+legend(AQILevel_label, 'Position', [0.6, 0.06, 0.25, 0.23], 'Orientation', 'Vertical', 'Units', 'Normalized', 'FontWeight', 'Bold');
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'AQI-level-wuhan.png'), '-r300');
