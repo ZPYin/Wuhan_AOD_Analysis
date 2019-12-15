@@ -265,11 +265,11 @@ b1 = bar(diurnalTime - datenum(0, 1, 0, 0, 10, 0), diurnalDataMean(3, :), 0.3, '
 b2 = bar(diurnalTime + datenum(0, 1, 0, 0, 10, 0), diurnalDataMean(4, :), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
 
 xlim([0, 1]);
-ylim([0, 400]);
+ylim([0, 200]);
 
 ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -281,15 +281,15 @@ b1 = bar(diurnalTime, diurnalDataMean(1, :), 0.5, 'k', 'DisplayName', 'AQI');
 
 xlim([0, 1]);
 set(gca, 'YTickLabel', '');
-ylim([0, 300]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('AQI');
-ylim([0, 300]);
+ylim([0, 150]);
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:250, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -300,11 +300,11 @@ subplot('Position', figPos(3, :), 'Units', 'Normalized');
 b1 = bar(diurnalTime, diurnalDataMean(2, :), 0.5, 'y', 'DisplayName', 'SO2');
 
 xlim([0, 1]);
-ylim([0, 400]);
+ylim([0, 150]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 't    ex');
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -315,16 +315,16 @@ subplot('Position', figPos(4, :), 'Units', 'Normalized');
 b1 = bar(diurnalTime, diurnalDataMean(5, :), 0.5, 'm', 'DisplayName', 'NO2');
 
 xlim([0, 1]);
-ylim([0, 100]);
+ylim([0, 30]);
 set(gca, 'YTickLabel', '');
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
-ylim([0, 100]);
+ylim([0, 30]);
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 20:20:80, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -335,11 +335,11 @@ subplot('Position', figPos(5, :), 'Units', 'Normalized');
 b1 = bar(diurnalTime, diurnalDataMean(6, :), 0.5, 'g', 'DisplayName', 'O3');
 
 xlim([0, 1]);
-ylim([0, 200]);
+ylim([0, 100]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 0:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 20:20:80, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -357,9 +357,9 @@ yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
-ylim([0, 300]);
+ylim([0, 150]);
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 0:50:250, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -383,11 +383,11 @@ b1 = bar(seasonalTime - 0.2, seasonalDataMean(3, :), 0.3, 'r', 'DisplayName', 'P
 b2 = bar(seasonalTime + 0.2, seasonalDataMean(4, :), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
 
 xlim([0, 5]);
-ylim([0, 400]);
+ylim([0, 200]);
 
 ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
 
-set(gca, 'XTick', seasonalTime, 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', seasonalTime, 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
@@ -399,15 +399,15 @@ b1 = bar(seasonalTime, seasonalDataMean(1, :), 0.5, 'k', 'DisplayName', 'AQI');
 
 xlim([0, 5]);
 set(gca, 'YTickLabel', '');
-ylim([0, 300]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('AQI');
-ylim([0, 300]);
+ylim([0, 150]);
 
-set(gca, 'XTick', seasonalTime, 'YTick', 50:50:250, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', seasonalTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
@@ -418,11 +418,11 @@ subplot('Position', figPos(3, :), 'Units', 'Normalized');
 b1 = bar(seasonalTime, seasonalDataMean(2, :), 0.5, 'y', 'DisplayName', 'SO2');
 
 xlim([0, 5]);
-ylim([0, 400]);
+ylim([0, 150]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 't    ex');
 
-set(gca, 'XTick', seasonalTime, 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', seasonalTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
@@ -433,16 +433,16 @@ subplot('Position', figPos(4, :), 'Units', 'Normalized');
 b1 = bar(seasonalTime, seasonalDataMean(5, :), 0.5, 'm', 'DisplayName', 'NO2');
 
 xlim([0, 5]);
-ylim([0, 100]);
+ylim([0, 30]);
 set(gca, 'YTickLabel', '');
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
-ylim([0, 100]);
+ylim([0, 30]);
 
-set(gca, 'XTick', seasonalTime, 'YTick', 20:20:80, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', seasonalTime, 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 5]);
 
@@ -453,11 +453,11 @@ subplot('Position', figPos(5, :), 'Units', 'Normalized');
 b1 = bar(seasonalTime, seasonalDataMean(6, :), 0.5, 'g', 'DisplayName', 'O3');
 
 xlim([0, 5]);
-ylim([0, 200]);
+ylim([0, 100]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
 
-set(gca, 'XTick', seasonalTime, 'XTickLabel', {'MAM', 'JJA', 'SON', 'DJF'}, 'YTick', 0:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', seasonalTime, 'XTickLabel', {'MAM', 'JJA', 'SON', 'DJF'}, 'YTick', 20:20:80, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 xlim([0, 5]);
 
 legend([b1], 'Location', 'NorthEast');
@@ -468,15 +468,15 @@ b1 = bar(seasonalTime, seasonalDataMean(7, :), 0.5, 'c', 'DisplayName', 'CO');
 
 xlim([0, 5]);
 set(gca, 'YTickLabel', '');
-ylim([0, 300]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
-ylim([0, 300]);
+ylim([0, 150]);
 
-set(gca, 'XTick', seasonalTime, 'XTickLabel', {'MAM', 'JJA', 'SON', 'DJF'}, 'YTick', 0:50:250, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', seasonalTime, 'XTickLabel', {'MAM', 'JJA', 'SON', 'DJF'}, 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 xlim([0, 5]);
 
 legend([b1], 'Location', 'NorthEast');
@@ -497,11 +497,11 @@ b1 = bar(yearlyTime - datenum(0, 3, 0, 0, 0, 0), yearlyDataMean(3, :), 0.3, 'r',
 b2 = bar(yearlyTime + datenum(0, 3, 0, 0, 0, 0), yearlyDataMean(4, :), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
 
 xlim([floor(time(1)), ceil(time(end)) + 1]);
-ylim([0, 400]);
+ylim([0, 200]);
 
 ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
 
-set(gca, 'XTick', yearlyTime, 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', yearlyTime, 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
@@ -513,15 +513,15 @@ b1 = bar(yearlyTime, yearlyDataMean(1, :), 0.5, 'k', 'DisplayName', 'AQI');
 
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 set(gca, 'YTickLabel', '');
-ylim([0, 300]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('AQI');
-ylim([0, 300]);
+ylim([0, 150]);
 
-set(gca, 'XTick', yearlyTime, 'YTick', 50:50:250, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
@@ -532,11 +532,11 @@ subplot('Position', figPos(3, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(2, :), 0.5, 'y', 'DisplayName', 'SO2');
 
 xlim([floor(time(1)), ceil(time(end)) + 1]);
-ylim([0, 400]);
+ylim([0, 150]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 't    ex');
 
-set(gca, 'XTick', yearlyTime, 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
@@ -554,9 +554,9 @@ yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
-ylim([0, 100]);
+ylim([0, 30]);
 
-set(gca, 'XTick', yearlyTime, 'YTick', 20:20:80, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', yearlyTime, 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
@@ -567,11 +567,11 @@ subplot('Position', figPos(5, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(6, :), 0.5, 'g', 'DisplayName', 'O3');
 
 xlim([floor(time(1)), ceil(time(end)) + 1]);
-ylim([0, 200]);
+ylim([0, 150]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
 
-set(gca, 'XTick', yearlyTime, 'YTick', 0:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
@@ -583,15 +583,15 @@ b1 = bar(yearlyTime, yearlyDataMean(7, :), 0.5, 'c', 'DisplayName', 'CO');
 
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 set(gca, 'YTickLabel', '');
-ylim([0, 300]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
-ylim([0, 300]);
+ylim([0, 150]);
 
-set(gca, 'XTick', yearlyTime, 'YTick', 0:50:250, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', yearlyTime, 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
 xlim([floor(time(1)), ceil(time(end)) + 1]);
 
@@ -703,11 +703,11 @@ subplot('Position', figPos(1, :), 'Units', 'Normalized');
 b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 1, :)), 0.5, 'k', 'DisplayName', 'AQI'); hold on;
 
 xlim([0, 1]);
-ylim([0, 200]);
+ylim([0, 150]);
 
 ylabel('AQI', 'Interpreter', 'tex');
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -721,15 +721,15 @@ b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 2, :)), 0.5, 'k', 'Disp
 
 xlim([0, 1]);
 set(gca, 'YTickLabel', '');
-ylim([0, 200]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('AQI', 'Interpreter', 'tex');
-ylim([0, 200]);
+ylim([0, 150]);
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -740,11 +740,11 @@ subplot('Position', figPos(3, :), 'Units', 'Normalized');
 b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 3, :)), 0.5, 'k', 'DisplayName', 'AQI'); hold on;
 
 xlim([0, 1]);
-ylim([0, 200]);
+ylim([0, 150]);
 
 ylabel('AQI', 'Interpreter', 'tex');
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
@@ -756,19 +756,19 @@ b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 4, :)), 0.5, 'k', 'Disp
 
 xlim([0, 1]);
 set(gca, 'YTickLabel', '');
-ylim([0, 200]);
+ylim([0, 150]);
 
 yyaxis right
 ax = gca;
 ax.YColor = 'k';
 ylabel('AQI', 'Interpreter', 'tex');
-ylim([0, 200]);
+ylim([0, 150]);
 
-set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
 xlim([0, 1]);
 
-text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+text(0.1, 0.9, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
 text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
