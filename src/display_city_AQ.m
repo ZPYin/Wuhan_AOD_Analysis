@@ -26,10 +26,10 @@ CO = city_AQ_data.CO;
 
 % generate datenum array with interval of 2 months
 dates6Months = [];
-nMonths = months(time(1), time(end - 1)) + 4;
+nMonths = months(time(1), time(end)) + 4;
 [thisYear, ~, ~] = datevec(time(1));
 for iMonth = 1:1:(nMonths/4)
-    if datenum(thisYear, 1 + (iMonth - 1) * 6, 1) <= time(end - 1)
+    if datenum(thisYear, 1 + (iMonth - 1) * 6, 1) <= time(end)
         dates6Months = [dates6Months, datenum(thisYear, 1 + (iMonth - 1) * 6, 1)];
     end
 end
@@ -102,6 +102,33 @@ for iYear = 1:length(yearlyTime)
                                 nanstd(NO2(flag)); ...
                                 nanstd(O3(flag)); ...
                                 nanstd(CO(flag))];
+end
+
+% seasonal-diurnal variations
+diurnalTime = datenum(0, 1, 0, 0:23, 30, 0);
+seasonalMonths = [3, 4, 5; 6, 7, 8; 9, 10, 11; 12, 1, 2];   % 4 * 3
+seasonalDiurnalDataMean = NaN(7, 4, length(diurnalTime));
+seasonalDiurnalDataStd = NaN(7, 4, length(diurnalTime));
+for iTime = 1:length(diurnalTime)
+    for iSeason = 1:length(seasonalMonths)
+        flagTime = (mod(time, 1) >= (diurnalTime(iTime) - datenum(0, 1, 0, 0, 60, 0))) & (mod(time, 1) < diurnalTime(iTime));
+        [~, monthList, ~] = datevec(time);
+        flagSeason = (monthList == seasonalMonths(iSeason, 1)) | (monthList == seasonalMonths(iSeason, 2)) | (monthList == seasonalMonths(iSeason, 3));
+        seasonalDiurnalDataMean(:, iSeason, iTime) = [nanmean(AQI(flagTime & flagSeason)); ...
+                                nanmean(SO2(flagTime & flagSeason)); ...
+                                nanmean(PM2p5(flagTime & flagSeason)); ...
+                                nanmean(PM10(flagTime & flagSeason)); ...
+                                nanmean(NO2(flagTime & flagSeason)); ...
+                                nanmean(O3(flagTime & flagSeason)); ...
+                                nanmean(CO(flagTime & flagSeason))];
+        seasonalDiurnalDataStd(:, iSeason, iTime) = [nanstd(AQI(flagTime & flagSeason)); ...
+                                    nanstd(SO2(flagTime & flagSeason)); ...
+                                    nanstd(PM2p5(flagTime & flagSeason)); ...
+                                    nanstd(PM10(flagTime & flagSeason)); ...
+                                    nanstd(NO2(flagTime & flagSeason)); ...
+                                    nanstd(O3(flagTime & flagSeason)); ...
+                                    nanstd(CO(flagTime & flagSeason))];
+    end
 end
 
 %% data visualization 
@@ -469,14 +496,14 @@ subplot('Position', figPos(1, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime - datenum(0, 3, 0, 0, 0, 0), yearlyDataMean(3, :), 0.3, 'r', 'DisplayName', 'PM2.5'); hold on;
 b2 = bar(yearlyTime + datenum(0, 3, 0, 0, 0, 0), yearlyDataMean(4, :), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
 
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 ylim([0, 400]);
 
 ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
 
 set(gca, 'XTick', yearlyTime, 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1, b2], 'Location', 'NorthEast');
 
@@ -484,7 +511,7 @@ legend([b1, b2], 'Location', 'NorthEast');
 subplot('Position', figPos(2, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(1, :), 0.5, 'k', 'DisplayName', 'AQI');
 
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 set(gca, 'YTickLabel', '');
 ylim([0, 300]);
 
@@ -496,7 +523,7 @@ ylim([0, 300]);
 
 set(gca, 'XTick', yearlyTime, 'YTick', 50:50:250, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1], 'Location', 'NorthEast');
 
@@ -504,14 +531,14 @@ legend([b1], 'Location', 'NorthEast');
 subplot('Position', figPos(3, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(2, :), 0.5, 'y', 'DisplayName', 'SO2');
 
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 ylim([0, 400]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 't    ex');
 
 set(gca, 'XTick', yearlyTime, 'YTick', 100:100:300, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1], 'Location', 'NorthEast');
 
@@ -519,7 +546,7 @@ legend([b1], 'Location', 'NorthEast');
 subplot('Position', figPos(4, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(5, :), 0.5, 'm', 'DisplayName', 'NO2');
 
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 ylim([0, 100]);
 set(gca, 'YTickLabel', '');
 
@@ -531,7 +558,7 @@ ylim([0, 100]);
 
 set(gca, 'XTick', yearlyTime, 'YTick', 20:20:80, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1], 'Location', 'NorthEast');
 
@@ -539,14 +566,14 @@ legend([b1], 'Location', 'NorthEast');
 subplot('Position', figPos(5, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(6, :), 0.5, 'g', 'DisplayName', 'O3');
 
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 ylim([0, 200]);
 
 ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
 
 set(gca, 'XTick', yearlyTime, 'YTick', 0:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1], 'Location', 'NorthEast');
 
@@ -554,7 +581,7 @@ legend([b1], 'Location', 'NorthEast');
 subplot('Position', figPos(6, :), 'Units', 'Normalized');
 b1 = bar(yearlyTime, yearlyDataMean(7, :), 0.5, 'c', 'DisplayName', 'CO');
 
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 set(gca, 'YTickLabel', '');
 ylim([0, 300]);
 
@@ -566,7 +593,7 @@ ylim([0, 300]);
 
 set(gca, 'XTick', yearlyTime, 'YTick', 0:50:250, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
 datetick(gca, 'x', 'yyyy', 'keepticks', 'keeplimits');
-xlim([floor(time(1)), ceil(time(end - 1)) + 1]);
+xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1], 'Location', 'NorthEast');
 
@@ -576,3 +603,512 @@ text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cente
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'yearly-AQ-wuhan.png'), '-r300');
+
+%% seasonal-diurnal variations
+%% PM2p5 and PM10
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+
+figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
+
+% left-top (PM2.5 PM10)
+subplot('Position', figPos(1, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime - datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(3, 1, :)), 0.3, 'r', 'DisplayName', 'PM2.5'); hold on;
+b2 = bar(diurnalTime + datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(4, 1, :)), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
+
+xlim([0, 1]);
+ylim([0, 200]);
+
+ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Spring', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+legend([b1, b2], 'Location', 'NorthEast');
+
+% right-top
+subplot('Position', figPos(2, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime - datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(3, 2, :)), 0.3, 'r', 'DisplayName', 'PM2.5'); hold on;
+b2 = bar(diurnalTime + datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(4, 2, :)), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 200]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 200]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Summer', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-left
+subplot('Position', figPos(3, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime - datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(3, 3, :)), 0.3, 'r', 'DisplayName', 'PM2.5'); hold on;
+b2 = bar(diurnalTime + datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(4, 3, :)), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
+
+xlim([0, 1]);
+ylim([0, 200]);
+
+ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Autumn', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-right
+subplot('Position', figPos(4, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime - datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(3, 4, :)), 0.3, 'r', 'DisplayName', 'PM2.5'); hold on;
+b2 = bar(diurnalTime + datenum(0, 1, 0, 0, 10, 0), squeeze(seasonalDiurnalDataMean(4, 4, :)), 0.3, 'b', 'DisplayName', 'PM10'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 200]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('PM (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 200]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-PM-wuhan.png'), '-r300');
+
+%% AQI
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+
+figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
+
+% left-top (AQI)
+subplot('Position', figPos(1, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 1, :)), 0.5, 'k', 'DisplayName', 'AQI'); hold on;
+
+xlim([0, 1]);
+ylim([0, 200]);
+
+ylabel('AQI', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Spring', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+legend([b1], 'Location', 'NorthEast');
+
+% right-top
+subplot('Position', figPos(2, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 2, :)), 0.5, 'k', 'DisplayName', 'AQI'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 200]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('AQI', 'Interpreter', 'tex');
+ylim([0, 200]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Summer', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-left
+subplot('Position', figPos(3, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 3, :)), 0.5, 'k', 'DisplayName', 'AQI'); hold on;
+
+xlim([0, 1]);
+ylim([0, 200]);
+
+ylabel('AQI', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Autumn', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-right
+subplot('Position', figPos(4, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(1, 4, :)), 0.5, 'k', 'DisplayName', 'AQI'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 200]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('AQI', 'Interpreter', 'tex');
+ylim([0, 200]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-AQI-wuhan.png'), '-r300');
+
+%% SO2
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+
+figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
+
+% left-top (SO2)
+subplot('Position', figPos(1, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(2, 1, :)), 0.5, 'y', 'DisplayName', 'SO2'); hold on;
+
+xlim([0, 1]);
+ylim([0, 200]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Spring', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+legend([b1], 'Location', 'NorthEast');
+
+% right-top
+subplot('Position', figPos(2, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(2, 2, :)), 0.5, 'y', 'DisplayName', 'SO2'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 200]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 200]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Summer', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-left
+subplot('Position', figPos(3, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(2, 3, :)), 0.5, 'y', 'DisplayName', 'SO2'); hold on;
+
+xlim([0, 1]);
+ylim([0, 200]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Autumn', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-right
+subplot('Position', figPos(4, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(2, 4, :)), 0.5, 'y', 'DisplayName', 'SO2'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 200]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 200]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 50:50:150, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-SO2-wuhan.png'), '-r300');
+
+%% NO2
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+
+figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
+
+% left-top (NO2)
+subplot('Position', figPos(1, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(5, 1, :)), 0.5, 'm', 'DisplayName', 'NO2'); hold on;
+
+xlim([0, 1]);
+ylim([0, 30]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Spring', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+legend([b1], 'Location', 'NorthEast');
+
+% right-top
+subplot('Position', figPos(2, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(5, 2, :)), 0.5, 'm', 'DisplayName', 'NO2'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 30]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 30]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 5:5:25, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Summer', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-left
+subplot('Position', figPos(3, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(5, 3, :)), 0.5, 'm', 'DisplayName', 'NO2'); hold on;
+
+xlim([0, 1]);
+ylim([0, 30]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 5:5:25, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Autumn', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-right
+subplot('Position', figPos(4, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(5, 4, :)), 0.5, 'm', 'DisplayName', 'NO2'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 30]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 30]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 5:5:25, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-NO2-wuhan.png'), '-r300');
+
+%% O3
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+
+figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
+
+% left-top (O3)
+subplot('Position', figPos(1, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(6, 1, :)), 0.5, 'g', 'DisplayName', 'O3'); hold on;
+
+xlim([0, 1]);
+ylim([0, 100]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 20:20:80, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Spring', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+legend([b1], 'Location', 'NorthEast');
+
+% right-top
+subplot('Position', figPos(2, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(6, 2, :)), 0.5, 'g', 'DisplayName', 'O3'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 100]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 100]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 20:20:80, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Summer', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-left
+subplot('Position', figPos(3, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(6, 3, :)), 0.5, 'g', 'DisplayName', 'O3'); hold on;
+
+xlim([0, 1]);
+ylim([0, 100]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 20:20:80, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Autumn', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-right
+subplot('Position', figPos(4, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(6, 4, :)), 0.5, 'g', 'DisplayName', 'O3'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 100]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 100]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 20:20:80, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-O3-wuhan.png'), '-r300');
+
+%% CO
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+
+figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
+
+% left-top (CO)
+subplot('Position', figPos(1, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(7, 1, :)), 0.5, 'c', 'DisplayName', 'CO'); hold on;
+
+xlim([0, 1]);
+ylim([0, 150]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Spring', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+legend([b1], 'Location', 'NorthEast');
+
+% right-top
+subplot('Position', figPos(2, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(7, 2, :)), 0.5, 'c', 'DisplayName', 'CO'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 150]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 150]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'XTickLabel', '', 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Summer', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-left
+subplot('Position', figPos(3, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(7, 3, :)), 0.5, 'c', 'DisplayName', 'CO'); hold on;
+
+xlim([0, 1]);
+ylim([0, 150]);
+
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Autumn', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+% bottom-right
+subplot('Position', figPos(4, :), 'Units', 'Normalized');
+b1 = bar(diurnalTime, squeeze(seasonalDiurnalDataMean(7, 4, :)), 0.5, 'c', 'DisplayName', 'CO'); hold on;
+
+xlim([0, 1]);
+set(gca, 'YTickLabel', '');
+ylim([0, 150]);
+
+yyaxis right
+ax = gca;
+ax.YColor = 'k';
+ylabel('Conc. (\mug/m^3)', 'Interpreter', 'tex');
+ylim([0, 150]);
+
+set(gca, 'XTick', diurnalTime(1:2:end), 'YTick', 30:30:120, 'YMinorTick', 'on', 'Box', 'on', 'LineWidth', 2, 'TickLen', [0.01, 0.01]);
+datetick(gca, 'x', 'HH', 'keepticks', 'keeplimits');
+xlim([0, 1]);
+
+text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
+
+text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+
+set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-CO-wuhan.png'), '-r300');
