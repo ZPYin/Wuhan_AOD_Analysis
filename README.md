@@ -21,7 +21,10 @@ MODIS (Terra and Aqua) AOD data from [Giovanni Platform][1], started from 2002 u
 Data used in the analysis was measured by the national ground stations, which put into use since May 2014. The data was collected and released every week by Xiaolei Wang. All the data can be accessed with this [link][2].
 The mean results from 9 stations were used to represent the air quality of Wuhan (34.53 N, 114.37 E). The locations of these stations can be found in the map below:
 
-![station location](img/wuhan_ground_station(google&#32;earth).jpg)
+<p align='center'>
+<img src='img/\wuhan_ground_station(google earth).jpg' width='500' height='300' caption='station_map'>
+<br>
+<b>station map</b>
 
 The data included 6 pollutants (listed below): 
 
