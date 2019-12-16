@@ -92,6 +92,12 @@ and the air quality index ([AQI][3])
 - The occurrences of `Unhealthy` and `Very Unhealthy` conditions are less than 13% and keep decreasing from 13% (2015) to 3% (2019)
 - `Hazardous` condition never happened in 2019. Meanwhile, `Good` and `Moderate` conditions keep increasing from 12% (2015) to 29% (2019) and from 49% (2015) to 57% (2019), respectively.
 
+## Q&A
+
+**How to reproduce the results?**
+
+A: See details [here](doc/how_to_run_the_code.md)
+
 ## Contacts
 
 Zhenping <zp.yin@whu.edu.cn>
