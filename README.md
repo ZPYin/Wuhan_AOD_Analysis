@@ -88,9 +88,9 @@ and the air quality index ([AQI][3])
 <br>
 <b>Occurrences of each air quality categories</b>
 
-- `No Hazardous` or worse conditions were found in Wuhan since 2015
+- No `Extreme Harmful` were found in Wuhan since 2015
 - The occurrences of `Unhealthy` and `Very Unhealthy` conditions are less than 13% and keep decreasing from 13% (2015) to 3% (2019)
-- `Hazardous` condition never happened in 2019. Meanwhile, `Good` and `Moderate` conditions keep increasing from 12% (2015) to 29% (2019) and from 49% (2015) to 57% (2019), respectively.
+- The occurrences of `Hazardous` condition were always less than 1% since 2015 and disappeared in 2019. Meanwhile, `Good` and `Moderate` conditions keep increasing from 12% (2015) to 29% (2019) and from 49% (2015) to 57% (2019), respectively.
 
 ## Q&A
 
