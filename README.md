@@ -43,21 +43,25 @@ and the air quality index ([AQI][3])
 ![Diurnal_Var](img/diurnal-AQ-wuhan.png)
 
 - The concentration of PM2.5, PM10 and SO2 have the similar diurnal variations, which achieve the minima at 16:00 and increase after 18:00. The minima could be associated with the diurnal trend of mixing layer depth, which arrives the largest between 14:00 and 16:00. The increase after dusk could be explained by the weak atmospheric convection, which will accumulate the pollutants at the surface level.
-- NO2 and O3 are relative active gases, which have short lifetime. Therefore, the diurnal trends were all smoothed out.
+- The main sources of SO2 is the coal combustion and vehicle exhaust, and the SO2 concentration is controlled by local emissions (positive) and the mixing boundary layer depth (negative), which lead to a diurnal uni-modal distribution. (SO2 has an abrupt increase at 03:00, similar like that of O3 and CO, which could be caused by the nighttime emissions from factories nearby)
+- The main sources of NO2 is similar like SO2. Since NO2 can be oxidized by O3, it usually have a opposite relationship as O3.
+- O3 emission is usually controlled by the strength of solar radiation, which makes the O3 concentration a similar pattern like the solar elevation angle.
 - AQI trend shows the minima at 16:00, which suggest the good time for taking outside exercise.
+
+*Further analysis can be found [here][4]*
 
 #### Seasonal Variations
 
 ![Seasonal_Var](img/seasonal-AQ-wuhan.png)
 
-- PM2.5, PM10, SO2, NO2, O3 and CO all have very clear seasonal variations. PM2.5, PM10, SO2, NO2 and O3 have the minimum concentration at summer and the maxima at winter, which is a clear indication of the effects of mixing layer depth. Because the mixing layer depth is the smallest (< 1km) at winter due to the weak latent heat flux and usually over 1.2 km at summer, which provide good convection conditions. Interestingly, the concentration of CO shows the adverse trend.
+- PM2.5, PM10, SO2, NO2 and CO all have very clear seasonal variations. PM2.5, PM10, SO2, NO2 and CO have the minimum concentration at summer and the maxima at winter, which is a clear indication of the effects of mixing layer depth. Because the mixing layer depth is the smallest (< 1km) at winter due to the weak latent heat flux and usually over 1.2 km at summer, which provide good convection conditions.
 - The difference between PM2.5 and PM10 was the largest at Spring, which could be partly contributed by pollen and transported dust particles.
 
 #### Annual Variations
 
 ![Annual_Var](img/yearly-AQ-wuhan.png)
 
-- All pollutants except O3 continousely decreased since 2015. This can be corroborated by the results of MODIS AOD.
+- PM2.5, PM10 and SO2 continuously decreased since 2015. This can be corroborated by the results of MODIS AOD.
 
 #### AQI Levels
 
@@ -74,3 +78,4 @@ Zhenping <zp.yin@whu.edu.cn>
 [1]: https://giovanni.gsfc.nasa.gov/
 [2]: http://beijingair.sinaapp.com/
 [3]: https://www.airnow.gov/index.cfm?action=aqibasics.aqi
+[4]: https://www.sciencedirect.com/science/article/pii/S0160412015300878

@@ -81,16 +81,16 @@ for iFile = 1:length(city_AQ_files)
         city_AQ_data.PM2p5_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 3, thisColumnIndx};
         city_AQ_data.PM10(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 4, thisColumnIndx};
         city_AQ_data.PM10_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 5, thisColumnIndx};
-        city_AQ_data.SO2(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx};
-        city_AQ_data.SO2_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 6, thisColumnIndx};
-        city_AQ_data.NO2(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 7, thisColumnIndx};
-        city_AQ_data.NO2_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 8, thisColumnIndx};
-        city_AQ_data.O3(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 9, thisColumnIndx};
-        city_AQ_data.O3_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 10, thisColumnIndx};
-        city_AQ_data.O3_8h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 11, thisColumnIndx};
-        city_AQ_data.O3_8h_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 12, thisColumnIndx};
-        city_AQ_data.CO(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 13, thisColumnIndx};
-        city_AQ_data.CO_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx};
+        city_AQ_data.SO2(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 6, thisColumnIndx};
+        city_AQ_data.SO2_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 7, thisColumnIndx};
+        city_AQ_data.NO2(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 8, thisColumnIndx};
+        city_AQ_data.NO2_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 9, thisColumnIndx};
+        city_AQ_data.O3(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 10, thisColumnIndx};
+        city_AQ_data.O3_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 11, thisColumnIndx};
+        city_AQ_data.O3_8h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 12, thisColumnIndx};
+        city_AQ_data.O3_8h_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 13, thisColumnIndx};
+        city_AQ_data.CO(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 14, thisColumnIndx};
+        city_AQ_data.CO_24h(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 15, thisColumnIndx};
 
     end
 end
@@ -158,16 +158,16 @@ for iFile = 1:length(station_AQ_files)
             tmp_station_AQ_data.('PM2p5_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 3, thisColumnIndx};
             tmp_station_AQ_data.('PM10')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 4, thisColumnIndx};
             tmp_station_AQ_data.('PM10_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 5, thisColumnIndx};
-            tmp_station_AQ_data.('SO2')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx};
-            tmp_station_AQ_data.('SO2_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 6, thisColumnIndx};
-            tmp_station_AQ_data.('NO2')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 7, thisColumnIndx};
-            tmp_station_AQ_data.('NO2_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 8, thisColumnIndx};
-            tmp_station_AQ_data.('O3')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 9, thisColumnIndx};
-            tmp_station_AQ_data.('O3_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 10, thisColumnIndx};
-            tmp_station_AQ_data.('O3_8h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 11, thisColumnIndx};
-            tmp_station_AQ_data.('O3_8h_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 12, thisColumnIndx};
-            tmp_station_AQ_data.('CO')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 13, thisColumnIndx};
-            tmp_station_AQ_data.('CO_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx};
+            tmp_station_AQ_data.('SO2')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 6, thisColumnIndx};
+            tmp_station_AQ_data.('SO2_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 7, thisColumnIndx};
+            tmp_station_AQ_data.('NO2')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 8, thisColumnIndx};
+            tmp_station_AQ_data.('NO2_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 9, thisColumnIndx};
+            tmp_station_AQ_data.('O3')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 10, thisColumnIndx};
+            tmp_station_AQ_data.('O3_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 11, thisColumnIndx};
+            tmp_station_AQ_data.('O3_8h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 12, thisColumnIndx};
+            tmp_station_AQ_data.('O3_8h_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 13, thisColumnIndx};
+            tmp_station_AQ_data.('CO')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 14, thisColumnIndx};
+            tmp_station_AQ_data.('CO_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 15, thisColumnIndx};
 
         end
 
