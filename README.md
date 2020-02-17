@@ -25,7 +25,7 @@ Data used in the analysis was measured by the national ground stations, which pu
 The mean results from 9 stations were used to represent the air quality of Wuhan (34.53 N, 114.37 E). The locations of these stations can be found in the map below:
 
 <p align='center'>
-<img src='img/\wuhan_ground_station(google earth).jpg' width='600' height='360' caption='station_map'>
+<img src='img/wuhan_ground_station(google earth).jpg' width='600' height='360' caption='station_map'>
 <br>
 <b>station map</b>
 
@@ -41,7 +41,7 @@ The data included 6 pollutants (listed below):
 and the air quality index ([AQI][3])
 
 <p align='center'>
-<img src='img/\AQI_table.png' width='600' height='320' caption='AQI level'>
+<img src='img/AQI_table.png' width='600' height='320' caption='AQI level'>
 <br>
 <b>AQI level</b>
 
@@ -50,7 +50,7 @@ and the air quality index ([AQI][3])
 #### Diurnal Variations
 
 <p align='center'>
-<img src='img/\diurnal-AQ-wuhan.png' width='600' height='460' caption='DAQ'>
+<img src='img/diurnal-AQ-wuhan.png' width='600' height='460' caption='DAQ'>
 <br>
 <b>Diurnal variations of pollutants</b>
 
@@ -65,7 +65,7 @@ and the air quality index ([AQI][3])
 #### Seasonal Variations
 
 <p align='center'>
-<img src='img/\seasonal-AQ-wuhan.png' width='600' height='460' caption='SAQ'>
+<img src='img/seasonal-AQ-wuhan.png' width='600' height='460' caption='SAQ'>
 <br>
 <b>Seasonal variations of pollutants</b>
 
@@ -75,7 +75,7 @@ and the air quality index ([AQI][3])
 #### Annual Variations
 
 <p align='center'>
-<img src='img/\yearly-AQ-wuhan.png' width='600' height='460' caption='YAQ'>
+<img src='img/yearly-AQ-wuhan.png' width='600' height='460' caption='YAQ'>
 <br>
 <b>Annual variations of pollutants</b>
 
@@ -84,7 +84,7 @@ and the air quality index ([AQI][3])
 #### AQI Levels
 
 <p align='center'>
-<img src='img/\AQI-level-wuhan.png' width='400' height='570' caption='AQIL'>
+<img src='img/AQI-level-wuhan.png' width='400' height='570' caption='AQIL'>
 <br>
 <b>Occurrences of each air quality categories</b>
 
