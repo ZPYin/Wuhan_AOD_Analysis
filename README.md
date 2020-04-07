@@ -15,7 +15,7 @@ MODIS (Terra and Aqua) AOD data from [Giovanni Platform][1], started from 2002 u
 
 - Polluted period from 2002 to 2011 can be found with AOD of 0.88±0.05 at 550 nm
 - Cleansing period from 2011 up till now with the slope of -0.06±0.01 per year can be found, because of the national-wide strict regulations and governmental control on the local emissions
-- Yearly mean AOD of terra is larger than that of Aqua, which may be caused by the diurnal variations of aerosol at 11:00 (local time) for Terra and 13:00 (local time) for Aqua
+- Yearly mean AOD of terra is larger than that of Aqua, which may be caused by the diurnal variations of aerosol at 10:30 (local time) for Terra and 13:40 (local time) for Aqua
 
 ## Ground-base Station Measurements
 
