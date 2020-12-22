@@ -5,11 +5,28 @@ addpath(fullfile(projectDir, 'include'));
 
 %% set character encoding
 currentCharacterEncoding = slCharacterEncoding();
-slCharacterEncoding('UTF-8');
+slCharacterEncoding('UTF-8');   % 编码格式设置成UTF-8，跟我的原始保存格式一致。
+                                % 如果你当前的编码格式不是采用的UTF-8，则代码中文会显示乱码，但是运行依然会正常显示
+                                % 可是如果你使用的是不同的编码格式进行保存（matlab编辑器默认的是GBK，或者ISO-8859-1），那么当前中文内容将会永远乱码。
+                                % 建议阅读：https://iloveocean.top/index.php/archives/486/#:~:text=matlab%20%E8%8B%B1%E6%96%87%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%BB%98%E8%AE%A4,utf%2D8%20%E6%A0%BC%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A0%81%E3%80%82
+set(0,'defaultAxesFontName', 'simkai');   % 如果想显示中文，这里需要设置支持中文的字体（如：这里的楷体）
+                                          % 注意matlab默认字体为Helvetica，并不支持中文
+                                          % 如果想设置其他的字体，可以参考以下链接
+                                          % https://blog.csdn.net/m0_37052320/article/details/80296951
 
 %% initialization
 matFile = 'wuhan_air_quality_data.mat';
 tRange = [datenum(2014, 3, 1), datenum(2019, 12, 31)];
+AQILevel = [0, 51, 101, 151, 201, 301];   % 参考我国标准：https://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
+AQILevel_label = {'优', '良', '轻度污染', '中度污染', '重度污染', '严重污染'};   % 每个AQI区间段对应的健康等级
+AQILevel_color = [[0, 228, 0]/255;
+                    [255, 255, 0]/255;
+                    [255, 126, 0]/255;
+                    [255, 0, 0]/255;
+                    [153, 0, 76]/255;
+                    [126, 0, 35]/255];
+nAQILevel = length(AQILevel);
+nPollutant = 7;
 
 %% load data
 load(fullfile(projectDir, 'data', matFile));
@@ -36,8 +53,8 @@ end
 
 % diurnal trend
 diurnalTime = datenum(0, 1, 0, 0:23, 30, 0);
-diurnalDataMean = NaN(7, length(diurnalTime));
-diurnalDataStd = NaN(7, length(diurnalTime));
+diurnalDataMean = NaN(nPollutant, length(diurnalTime));
+diurnalDataStd = NaN(nPollutant, length(diurnalTime));
 for iTime = 1:length(diurnalTime)
     flag = (mod(time, 1) >= (diurnalTime(iTime) - datenum(0, 1, 0, 0, 60, 0))) & (mod(time, 1) < diurnalTime(iTime));
     diurnalDataMean(:, iTime) = [nanmean(AQI(flag)); ...
@@ -59,8 +76,8 @@ end
 % seasonal trend
 seasonalTime = 1:4;   % [MAM, JJA, SON, DJF]
 seasonalMonths = [3, 4, 5; 6, 7, 8; 9, 10, 11; 12, 1, 2];   % 4 * 3
-seasonalDataMean = NaN(7, 4);
-seasonalDataStd = NaN(7, 4);
+seasonalDataMean = NaN(nPollutant, 4);
+seasonalDataStd = NaN(nPollutant, 4);
 for iSeason = 1:length(seasonalTime)
     [~, monthList, ~] = datevec(time);
     flag = (monthList == seasonalMonths(iSeason, 1)) | (monthList == seasonalMonths(iSeason, 2)) | (monthList == seasonalMonths(iSeason, 3));
@@ -81,9 +98,9 @@ for iSeason = 1:length(seasonalTime)
 end
 
 % yearly trend
-yearlyTime = datenum(2015:2019, 7, 1);
-yearlyDataMean = NaN(7, length(yearlyTime));
-yearlyDataStd = NaN(7, length(yearlyTime));
+yearlyTime = datenum(2015:2019, nPollutant, 1);
+yearlyDataMean = NaN(nPollutant, length(yearlyTime));
+yearlyDataStd = NaN(nPollutant, length(yearlyTime));
 for iYear = 1:length(yearlyTime)
     [yearList, ~, ~] = datevec(time);
     [thisYear, ~, ~] = datevec(yearlyTime(iYear));
@@ -106,28 +123,19 @@ end
 
 % yearly AQI level
 yearlyTime = datenum(2015:2019, 7, 1);
-AQILevel = [0, 51, 101, 151, 201, 301, 501];
-AQILevel_label = {'Good', 'Moderate', 'Unhealthy for Sensitive Groups', 'Unhealthy', 'Very Unhealthy', 'Hazardous', 'Extreme Harmful'};
-AQILevel_color = [hex2rgb('#00e400');
-                  hex2rgb('#ffff00');
-                  hex2rgb('#ff7e00');
-                  hex2rgb('#ff0000');
-                  hex2rgb('#8f3f97');
-                  hex2rgb('#7e0023');
-                  hex2rgb('#000000')];
-yearlyAQILevel = NaN(7, length(yearlyTime));
+yearlyAQILevel = NaN(nAQILevel, length(yearlyTime));
 for iYear = 1:length(yearlyTime)
     [yearList, ~, ~] = datevec(time);
     [thisYear, ~, ~] = datevec(yearlyTime(iYear));
     flag = (yearList == thisYear);
-    yearlyAQILevel(:, iYear) = [histc(AQI(flag), AQILevel)];
+    yearlyAQILevel(:, iYear) = histc(AQI(flag), AQILevel);
 end
 
 % seasonal-diurnal variations
 diurnalTime = datenum(0, 1, 0, 0:23, 30, 0);
 seasonalMonths = [3, 4, 5; 6, 7, 8; 9, 10, 11; 12, 1, 2];   % 4 * 3
-seasonalDiurnalDataMean = NaN(7, 4, length(diurnalTime));
-seasonalDiurnalDataStd = NaN(7, 4, length(diurnalTime));
+seasonalDiurnalDataMean = NaN(nPollutant, 4, length(diurnalTime));
+seasonalDiurnalDataStd = NaN(nPollutant, 4, length(diurnalTime));
 for iTime = 1:length(diurnalTime)
     for iSeason = 1:length(seasonalMonths)
         flagTime = (mod(time, 1) >= (diurnalTime(iTime) - datenum(0, 1, 0, 0, 60, 0))) & (mod(time, 1) < diurnalTime(iTime));
@@ -1166,8 +1174,8 @@ title('2019', 'FontSize', 14);
 colormap(ax5, AQILevel_color([1, 3, 4, 5, 2], :));
 
 ax6 = subplot('Position', [-10, -10, 1, 1], 'Units', 'Normalized');
-p6 = pie(ax6, ones(1, 7));
+p6 = pie(ax6, ones(1, nAQILevel));
 colormap(ax6, AQILevel_color);
 legend(AQILevel_label, 'Position', [0.6, 0.06, 0.25, 0.23], 'Orientation', 'Vertical', 'Units', 'Normalized', 'FontWeight', 'Bold');
-set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
+
 export_fig(gcf, fullfile(projectDir, 'img', 'AQI-level-wuhan.png'), '-r300');
