@@ -16,7 +16,8 @@ set(0,'defaultAxesFontName', 'simkai');   % 如果想显示中文，这里需要
 
 %% initialization
 matFile = 'wuhan_air_quality_data.mat';
-tRange = [datenum(2014, 3, 1), datenum(2019, 12, 31)];
+tRange = [datenum(2014, 3, 1), datenum(2020, 12, 31)];
+analysis_year_list = 2015:2020;
 AQILevel = [0, 51, 101, 151, 201, 301];   % 参考我国标准：https://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
 AQILevel_label = {'优', '良', '轻度污染', '中度污染', '重度污染', '严重污染'};   % 每个AQI区间段对应的健康等级
 AQILevel_color = [[0, 228, 0]/255;
@@ -27,6 +28,7 @@ AQILevel_color = [[0, 228, 0]/255;
                     [126, 0, 35]/255];
 nAQILevel = length(AQILevel);
 nPollutant = 7;
+pieAQIOrder = [1, 5, 2, 6, 3, 4];   % 将对应饼状图元素分离显示（防止重叠）
 
 %% load data
 load(fullfile(projectDir, 'data', matFile));
@@ -98,7 +100,7 @@ for iSeason = 1:length(seasonalTime)
 end
 
 % yearly trend
-yearlyTime = datenum(2015:2019, nPollutant, 1);
+yearlyTime = datenum(analysis_year_list, nPollutant, 1);
 yearlyDataMean = NaN(nPollutant, length(yearlyTime));
 yearlyDataStd = NaN(nPollutant, length(yearlyTime));
 for iYear = 1:length(yearlyTime)
@@ -122,7 +124,7 @@ for iYear = 1:length(yearlyTime)
 end
 
 % yearly AQI level
-yearlyTime = datenum(2015:2019, 7, 1);
+yearlyTime = datenum(analysis_year_list, 7, 1);
 yearlyAQILevel = NaN(nAQILevel, length(yearlyTime));
 for iYear = 1:length(yearlyTime)
     [yearList, ~, ~] = datevec(time);
@@ -163,7 +165,7 @@ end
 % stations map (by jupyter)
 
 %% time series of different components
-figure('Position', [0, 20, 700, 600], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 3, 2);
 
@@ -278,7 +280,7 @@ export_fig(gcf, fullfile(projectDir, 'img', 'time-series-AQ-wuhan.png'), '-r300'
 saveas(gcf, fullfile(projectDir, 'img', 'time-series-AQ-wuhan.fig'));
 
 %% diurnal trend
-figure('Position', [0, 20, 700, 600], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 3, 2);
 
@@ -396,7 +398,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'diurnal-AQ-wuhan.png'), '-r300');
 
 %% seasonal trend
-figure('Position', [0, 20, 700, 600], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 3, 2);
 
@@ -510,7 +512,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-AQ-wuhan.png'), '-r300');
 
 %% yearly trend
-figure('Position', [0, 20, 700, 600], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 3, 2);
 
@@ -629,7 +631,7 @@ export_fig(gcf, fullfile(projectDir, 'img', 'yearly-AQ-wuhan.png'), '-r300');
 
 %% seasonal-diurnal variations
 %% PM2p5 and PM10
-figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
 
@@ -717,7 +719,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-PM-wuhan.png'), '-r300');
 
 %% AQI
-figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
 
@@ -801,7 +803,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-AQI-wuhan.png'), '-r300');
 
 %% SO2
-figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
 
@@ -885,7 +887,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-SO2-wuhan.png'), '-r300');
 
 %% NO2
-figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
 
@@ -969,7 +971,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-NO2-wuhan.png'), '-r300');
 
 %% O3
-figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
 
@@ -1053,7 +1055,7 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-O3-wuhan.png'), '-r300');
 
 %% CO
-figure('Position', [0, 20, 700, 500], 'Units', 'Pixels');
+figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
 
 figPos = subfigPos([0.07, 0.1, 0.85, 0.83], 2, 2);
 
@@ -1137,41 +1139,49 @@ set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-CO-wuhan.png'), '-r300');
 
 %% yearly AQI level
-figure('Position', [0, 30, 500, 700], 'Units', 'Pixels');
+figure('Position', [0, 30, 500, 700], 'Units', 'Pixels', 'color', 'w');
 
-figPos = subfigPos([0.02, 0.01, 0.95, 0.95], 3, 2, 0, 0.07);
+figPos = subfigPos([0.02, 0.03, 0.95, 0.90], 3, 2, 0, 0.07);
 
 ax1 = subplot('Position', figPos(1, :), 'Units', 'Normalized');
 
-p1 = pie(ax1, yearlyAQILevel([1, 6, 3, 4, 5, 2], 1), [0, 0, 1, 0, 1, 0]);
+yearlyAQILevel_organize = yearlyAQILevel(pieAQIOrder, :);
+AQILevel_color_organize = AQILevel_color(pieAQIOrder, :);
+
+flagNonZero = abs(yearlyAQILevel_organize(:, 1)) > 1e-5;
+p1 = pie(ax1, yearlyAQILevel_organize(flagNonZero, 1));   % 将对应饼状图元素分离显示（防止重叠）
 title('2015', 'FontSize', 14);
-colormap(ax1, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+colormap(ax1, AQILevel_color_organize(flagNonZero, :));
 
 ax2 = subplot('Position', figPos(2, :), 'Units', 'Normalized');
 
-p2 = pie(ax2, yearlyAQILevel([1, 6, 3, 4, 5, 2], 2), [0, 0, 1, 0, 1, 0]);
+flagNonZero = abs(yearlyAQILevel_organize(:, 2)) > 1e-5;
+p2 = pie(ax2, yearlyAQILevel_organize(flagNonZero, 2));   % 将对应饼状图元素分离显示（防止重叠）
 title('2016', 'FontSize', 14);
-colormap(ax2, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+colormap(ax2, AQILevel_color_organize(flagNonZero, :));
 
 ax3 = subplot('Position', figPos(3, :), 'Units', 'Normalized');
 
-p3 = pie(ax3, yearlyAQILevel([1, 6, 3, 4, 5, 2], 3), [0, 0, 1, 0, 1, 0]);
+flagNonZero = abs(yearlyAQILevel_organize(:, 3)) > 1e-5;
+p3 = pie(ax3, yearlyAQILevel_organize(flagNonZero, 3));   % 将对应饼状图元素分离显示（防止重叠）
 title('2017', 'FontSize', 14);
-colormap(ax3, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+colormap(ax3, AQILevel_color_organize(flagNonZero, :));
 
 ax4 = subplot('Position', figPos(4, :), 'Units', 'Normalized');
 
-p4 = pie(ax4, yearlyAQILevel([1, 6, 3, 4, 5, 2], 4), [0, 0, 1, 0, 1, 0]);
+flagNonZero = abs(yearlyAQILevel_organize(:, 4)) > 1e-5;
+p4 = pie(ax4, yearlyAQILevel_organize(flagNonZero, 4));   % 将对应饼状图元素分离显示（防止重叠）
 title('2018', 'FontSize', 14);
 
-colormap(ax4, AQILevel_color([1, 6, 3, 4, 5, 2], :));
+colormap(ax4, AQILevel_color_organize(flagNonZero, :));
 
 ax5 = subplot('Position', figPos(5, :), 'Units', 'Normalized');
 
-p5 = pie(ax5, yearlyAQILevel([1, 6, 3, 4, 5, 2], 5), [0, 0, 1, 0, 1, 0]);
+flagNonZero = abs(yearlyAQILevel_organize(:, 5)) > 1e-5;
+p5 = pie(ax5, yearlyAQILevel_organize(flagNonZero, 5));   % 将对应饼状图元素分离显示（防止重叠）
 title('2019', 'FontSize', 14);
 
-colormap(ax5, AQILevel_color([1, 3, 4, 5, 2], :));
+colormap(ax5, AQILevel_color_organize(flagNonZero, :));
 
 ax6 = subplot('Position', [-10, -10, 1, 1], 'Units', 'Normalized');
 p6 = pie(ax6, ones(1, nAQILevel));
