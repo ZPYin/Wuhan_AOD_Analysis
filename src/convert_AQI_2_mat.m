@@ -8,9 +8,9 @@ currentCharacterEncoding = slCharacterEncoding();
 slCharacterEncoding('UTF-8');
 
 %% Parameter initialization
-AQI_DataFolder = 'D:\Data\全国空气质量';
+AQI_DataFolder = 'D:\Data\全国空气质量\v_202101';
 city = '武汉';
-station_city_lookup_file = '站点列表-2019.08.01起.csv';
+station_city_lookup_file = '站点列表-2020.12.06起.csv';
 matFilename = 'wuhan_air_quality_data.mat';
 
 %% read data
