@@ -1,3 +1,4 @@
 .vscode/
 *.asv
 .ipynb_checkpoints
+data/*.mat
