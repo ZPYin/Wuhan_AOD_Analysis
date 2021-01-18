@@ -623,8 +623,8 @@ xlim([floor(time(1)), ceil(time(end)) + 1]);
 legend([b1], 'Location', 'NorthWest');
 
 text(0, 3.1, 'Annual variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
-text(-0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
-text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(-0.5, -0.2, 'Year', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0.5, -0.2, 'Year', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
 export_fig(gcf, fullfile(projectDir, 'img', 'yearly-AQ-wuhan.png'), '-r300');
