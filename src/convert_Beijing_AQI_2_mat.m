@@ -34,15 +34,24 @@ for indx = 1:length(station_IDs)
 end
 
 dataCounter = 0;
-for iFile = 1:length(station_AQ_files)
+for iFile = 1115:length(station_AQ_files)
     fprintf('Finished %5.2f%%: Reading stations -> %s\n', (iFile / length(station_AQ_files)) * 100, station_AQ_files{iFile});
+    try
+        % read beijing_all_********.csv
+        station_all_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+    catch errMsg
+        warning('Error in reading %s', station_AQ_files{iFile});
+        continue;
+    end
 
-    % read beijing_all_********.csv
-    station_all_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
-
-    if exist(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'file') == 2
-        % read beijing_extra_********.csv
-        station_extra_table = readtable(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+    try
+        if exist(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'file') == 2
+            % read beijing_extra_********.csv
+            station_extra_table = readtable(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+        end
+    catch errMsg
+        warning('Error in reading %s', strrep(station_AQ_files{iFile}, 'all', 'extra'));
+        continue;
     end
 
     % read the first line
