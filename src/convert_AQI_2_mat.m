@@ -49,7 +49,12 @@ dataCounter = 0;
 for iFile = 1:length(city_AQ_files)
     fprintf('Finished %5.2f%%: Reading cities -> %s\n', (iFile / length(city_AQ_files)) * 100, city_AQ_files{iFile});
 
-    city_AQ_daily_table = readtable(city_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+    try
+        city_AQ_daily_table = readtable(city_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+    catch ErrMsg
+        warning('Error in reading %s', city_AQ_files{iFile});
+        continue;
+    end
 
     % read the first line
     fid = fopen(city_AQ_files{iFile}, 'r');
@@ -74,6 +79,10 @@ for iFile = 1:length(city_AQ_files)
         end
 
         dataCounter = dataCounter + 1;
+
+        if iscell(city_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx})
+            continue;
+        end
 
         city_AQ_data.time(dataCounter) = datenum([num2str(city_AQ_daily_table{(iTime - 1) * 15 + 1, 1}), sprintf('%02d', city_AQ_daily_table{(iTime - 1) * 15 + 1, 2})], 'yyyymmddHH');
         city_AQ_data.AQI(dataCounter) = city_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx};
@@ -118,7 +127,12 @@ dataCounter = 0;
 for iFile = 1:length(station_AQ_files)
     fprintf('Finished %5.2f%%: Reading stations -> %s\n', (iFile / length(station_AQ_files)) * 100, station_AQ_files{iFile});
 
-    station_AQ_daily_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+    try
+        station_AQ_daily_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+    catch ErrMsg
+        warning('Error in reading %s', station_AQ_files{iFile});
+        continue;
+    end
 
     % read the first line
     fid = fopen(station_AQ_files{iFile}, 'r');
@@ -146,13 +160,19 @@ for iFile = 1:length(station_AQ_files)
         % output the data
         indx = 1:int32(size(station_AQ_daily_table, 1) / 15);
         for iTime = 1:length(indx)
+
             if isnan(thisColumnIndx)
                 continue;
             end
 
             thisDataCounter = thisDataCounter + 1;
 
+            if iscell(station_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx})
+                continue;
+            end
+
             tmp_station_AQ_data.('time')(thisDataCounter) = datenum([num2str(station_AQ_daily_table{(iTime - 1) * 15 + 1, 1}), sprintf('%02d', station_AQ_daily_table{(iTime - 1) * 15 + 1, 2})], 'yyyymmddHH');
+
             tmp_station_AQ_data.('AQI')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 1, thisColumnIndx};
             tmp_station_AQ_data.('PM2p5')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 2, thisColumnIndx};
             tmp_station_AQ_data.('PM2p5_24h')(thisDataCounter) = station_AQ_daily_table{(iTime - 1)*15 + 3, thisColumnIndx};
