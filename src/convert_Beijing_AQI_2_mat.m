@@ -12,7 +12,8 @@ AQI_DataFolder = 'D:\Data\北京空气质量';
 matFilename = 'Beijing_AQ_data_before_20210119.mat';   % New station or station names were used after 20210119
 
 % station-city lookup table
-station_city_lookup_table = table({'pd_00', 'pd_01', 'pd_02', 'pd_03', 'pd_04', 'pd_05', 'pd_06', 'pd_07', 'pd_08', 'pd_09', 'pd_10', 'pd_11', 'pd_12', 'pd_13', 'pd_14', 'pd_15', 'pd_16', 'pd_17', 'pd_18', 'pd_19', 'pd_20', 'pd_21', 'pd_22', 'pd_23', 'pd_24', 'pd_25', 'pd_26', 'pd_27', 'pd_28', 'pd_29', 'pd_30', 'pd_31', 'pd_32', 'pd_33', 'pd_34'}, {'东四', '天坛', '官园', '万寿西宫', '奥体中心', '农展馆', '万柳', '北部新区', '植物园', '丰台花园', '云岗', '古城', '房山', '大兴', '亦庄', '通州', '顺义', '昌平', '门头沟', '平谷', '怀柔', '密云', '延庆', '定陵', '八达岭', '密云水库', '东高村', '永乐店', '榆垡', '琉璃河', '前门', '永定门内', '西直门北', '南三环', '东四环'}, {'北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京', '北京'}, [116.417, 116.407, 116.339, 116.352, 116.397, 116.461, 116.287, 116.174, 116.207, 116.279, 116.146, 116.184, 116.136, 116.404, 116.506, 116.663, 116.655, 116.23, 116.106, 117.1, 116.628, 116.832, 115.972, 116.22, 115.988, 116.911, 117.12, 116.783, 116.3, 116, 116.395, 116.394, 116.349, 116.368, 116.483], [39.929, 39.886, 39.929, 39.878, 39.982, 39.937, 39.987, 40.09, 40.002, 39.863, 39.824, 39.914, 39.742, 39.718, 39.795, 39.886, 40.127, 40.217, 39.937, 40.143, 40.328, 40.37, 40.453, 40.292, 40.365, 40.499, 40.1, 39.712, 39.52, 39.58, 39.899, 39.876, 39.954, 39.856, 39.939], 'VariableNames', {'Station_ID' 'Station_Name' 'City' 'Station_lon', 'Station_lat'});
+load(fullfile(projectDir, 'data', 'Beijing_city_station_lookup_table.mat'));
+station_city_lookup_table = Beijing_city_station_lookup_table;
 
 % list air quality data filenames of different stations
 station_AQ_files = {};
@@ -34,7 +35,7 @@ for indx = 1:length(station_IDs)
 end
 
 dataCounter = 0;
-for iFile = 1115:length(station_AQ_files)
+for iFile = 311:length(station_AQ_files)
     fprintf('Finished %5.2f%%: Reading stations -> %s\n', (iFile / length(station_AQ_files)) * 100, station_AQ_files{iFile});
     try
         % read beijing_all_********.csv
@@ -111,9 +112,7 @@ for iFile = 1115:length(station_AQ_files)
                 stations_AQ_data.(ID).('CO')(thisDataCounter) = NaN;
                 stations_AQ_data.(ID).('CO_24h')(thisDataCounter) = NaN;
             end
-
         end
-
     end
 
     dataCounter = thisDataCounter;
