@@ -35,7 +35,7 @@ for indx = 1:length(station_IDs)
 end
 
 dataCounter = 0;
-for iFile = 311:length(station_AQ_files)
+for iFile = 1:length(station_AQ_files)
     fprintf('Finished %5.2f%%: Reading stations -> %s\n', (iFile / length(station_AQ_files)) * 100, station_AQ_files{iFile});
     try
         % read beijing_all_********.csv
