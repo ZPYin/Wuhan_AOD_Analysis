@@ -34,11 +34,12 @@ if flagCity
     for iDay = 1:length(data.cityData)
         cityDailyData = data.cityData{iDay};
 
-        cityCode = data.cityLookupTab.code{strcmp(data.cityLookupTab.city, site)};
-        if isempty(cityCode)
+        flagCityCode = strcmp(data.cityLookupTab.city, site);
+        if ~ any(flagCityCode)
             warning('No measurements at %s', site);
             return;
         end
+        cityCode = data.cityLookupTab.code{flagCityCode};
 
         rowInd = strcmpi(cityDailyData.type, AQType);
         colInd = strcmp(cityDailyData.Properties.VariableNames, cityCode);
@@ -55,11 +56,12 @@ else
     for iDay = 1:length(data.siteData)
         siteDailyData = data.siteData{iDay};
 
-        siteCode = data.siteLookupTab.code{strcmp(data.siteLookupTab.site, site)};
-        if isempty(siteCode)
+        flagSiteCode = strcmp(data.siteLookupTab.site, site);
+        if ~ any(flagSiteCode)
             warning('No measurements at %s', site);
             return;
         end
+        siteCode = data.siteLookupTab.code{flagSiteCode};
 
         rowInd = strcmpi(siteDailyData.type, AQType);
         colInd = strcmp(siteDailyData.Properties.VariableNames, siteCode);

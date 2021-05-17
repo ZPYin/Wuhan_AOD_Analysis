@@ -15,7 +15,7 @@ function [timeOut, dataOut, dataStd] = averaging(timeIn, dataIn, varargin)
 %       - annual
 %       - month
 %       - day (default)
-%       - season
+%       - season | seasonal
 %       - diurnal
 %   data_range: 2-element array
 %       valid data range.
@@ -76,9 +76,9 @@ case {'yearly', 'annual', 'year'}
     for iYear = 1:nYear
         flagYear = (timeIn >= datenum(startTime.Year + iYear - 1, 1, 1)) & ...
                    (timeIn < datenum(startTime.Year + iYear, 1, 1));
+        timeOut(iYear) = datenum(startTime.Year + iYear - 1, 1, 1);
 
         if sum(flagYear) >= p.Results.min_cases
-            timeOut(iYear) = datenum(startTime.Year + iYear - 1, 1, 1);
             dataOut(iYear) = nanmean(dataIn(flagYear));
             dataStd(iYear) = nanstd(dataIn(flagYear));
         end
@@ -95,9 +95,9 @@ case {'monthly', 'month'}
     for iMonth = 1:nMonth
         flagMonth = (timeIn >= datenum(startTime.Year, startTime.Month + iMonth - 1, 1)) & ...
                     (timeIn < datenum(startTime.Year, startTime.Month + iMonth, 1));
+        timeOut(iMonth) = datenum(startTime.Year, startTime.Month + iMonth - 1, 1);
 
         if sum(flagMonth) >= p.Results.min_cases
-            timeOut(iMonth) = datenum(startTime.Year, startTime.Month + iMonth - 1, 1);
             dataOut(iMonth) = nanmean(dataIn(flagMonth));
             dataStd(iMonth) = nanstd(dataIn(flagMonth));
         end
@@ -114,15 +114,15 @@ case {'daily', 'day'}
     for iDay = 1:nDay
         flagDay = (timeIn >= datenum(startTime.Year, startTime.Month, iDay - 1)) & ...
                   (timeIn < datenum(startTime.Year, startTime.Month, iDay));
+        timeOut(iDay) = datenum(startTime.Year, startTime.Month, iDay - 1);
 
         if sum(flagDay) >= p.Results.min_cases
-            timeOut(iDay) = datenum(startTime.Year, startTime.Month, iDay - 1);
             dataOut(iDay) = nanmean(dataIn(flagDay));
             dataStd(iDay) = nanstd(dataIn(flagDay));
         end
     end
 
-case {'seansonal', 'season'}
+case {'seasonal', 'season'}
 
     % seasonal average
     nSeason = 4;
@@ -134,9 +134,9 @@ case {'seansonal', 'season'}
 
     for iSeason = 1:nSeason
         flagSeason = (seasonIndx == iSeason);
+        timeOut(iSeason) = iSeason;
 
         if sum(flagSeason) >= p.Results.min_cases
-            timeOut(iSeason) = iSeason;
             dataOut(iSeason) = nanmean(dataIn(flagSeason));
             dataStd(iSeason) = nanstd(dataIn(flagSeason));
         end
@@ -154,9 +154,9 @@ case {'diurnal'}
     [~, ~, ~, hourIndx, ~, ~] = datevec(timeIn);
     for iHour = 1:nHour
         flagHour = (hourIndx == (iHour - 1));
+        timeOut(iHour) = (iHour - 1);
 
         if sum(flagHour) >= p.Results.min_cases
-            timeOut(iHour) = (iHour - 1);
             dataOut(iHour) = nanmean(dataIn(flagHour));
             dataStd(iHour) = nanstd(dataIn(flagHour));
         end

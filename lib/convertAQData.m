@@ -1,18 +1,42 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(genpath(fullfile(projectDir, 'include')));
-addpath(genpath(fullfile(projectDir, 'lib')));
+function [flag] = convertAQData(dataPath, siteLookupFile, site, flagCity, dateRange, matFilename, varargin)
+% CONVERTAQDATA convert air pollutant data to mat file.
+% USAGE:
+%    [flag] = convertAQData(dataPath, siteLookupFile, site, flagCity, matFilename)
+% INPUTS:
+%    dataPath: char
+%        root path of air pollutant data.
+%    siteLookupFile: char
+%        absolute path of site lookup file.
+%    site: cell
+%        site list.
+%    flagCity: logical
+%        city flag.
+%    dateRange: 2-element array
+%        date range for air pollutant data.
+%    matFilename: char
+%        absolute path of mat file to be exported to.
+% OUTPUTS:
+%    flag: logical
+%        flag to determine the converting process.
+% EXAMPLE:
+% HISTORY:
+%    2021-05-06: first edition by Zhenping
+% .. Authors: - zhenping@tropos.de
 
 % set character encoding
 slCharacterEncoding('UTF-8');
 
-%% initialization
-dataPath = 'D:\Data\全国空气质量\v_202101';
-siteLookupFile = 'D:\Data\全国空气质量\v_202101\_站点列表\站点列表-2020.12.06起.csv';
-dateRange = [datenum(2019, 1, 1), datenum(2019, 2, 1)];
-matFilename = 'D:\Data\test.mat';
-site = {'武汉'};
-flagCity = true;
+p = inputParser;
+p.KeepUnmatched = true;
+
+addRequired(p, 'dataPath', @ischar);
+addRequired(p, 'siteLookupFile', @ischar);
+addRequired(p, 'site', @iscell);
+addRequired(p, 'flagCity', @islogical);
+addRequired(p, 'dateRange', @isnumeric);
+addRequired(p, 'matFilename', @ischar);
+
+parse(p, dataPath, siteLookupFile, site, flagCity, dateRange, matFilename, varargin{:});
 
 %% search data files
 if flagCity
@@ -39,14 +63,18 @@ if flagCity
     % read city data
     cityData = cell(1, length(cityAQFiles));
     for iFile = 1:length(cityAQFiles)
-        fprintf('Finished %6.2f%%: reading %s\n', (iFile - 1)/length(cityAQFiles) * 100, basename(cityAQFiles{iFile}));
+        fprintf('Finished %6.2f%%: reading %s\n', ...
+            (iFile - 1)/length(cityAQFiles) * 100, ...
+            basename(cityAQFiles{iFile}));
 
-        [cityDataTmp, cityLookupTab] = readCityAQ(cityAQFiles{iFile}, 'siteLookupFile', siteLookupFile, 'cityList', site);
+        [cityDataTmp, cityLookupTab] = readCityAQ(cityAQFiles{iFile}, ...
+            'siteLookupFile', siteLookupFile, 'cityList', site);
         cityData{iFile} = cityDataTmp;
     end
 
     %% save data
     save(matFilename, 'cityData', 'cityLookupTab', '-v7.3');
+    flag = true;
 
 else
     % list air quality data filenames of different stations
@@ -71,13 +99,17 @@ else
     % read site data
     siteData = cell(1, length(siteAQFiles));
     for iFile = 1:length(siteAQFiles)
-        fprintf('Finished %6.2f%%: reading %s\n', (iFile - 1)/length(siteAQFiles) * 100, basename(siteAQFiles{iFile}));
+        fprintf('Finished %6.2f%%: reading %s\n', ...
+            (iFile - 1)/length(siteAQFiles) * 100, ...
+            basename(siteAQFiles{iFile}));
 
-        [siteDataTmp, siteLookupTab] = readSiteAQ(siteAQFiles{iFile}, 'siteLookupFile', siteLookupFile, 'siteList', site);
+        [siteDataTmp, siteLookupTab] = readSiteAQ(siteAQFiles{iFile}, ...
+            'siteLookupFile', siteLookupFile, 'siteList', site);
         siteData{iFile} = siteDataTmp;
     end
 
     %% save data
     save(matFilename, 'siteData', 'siteLookupTab', '-v7.3');
+    flag = true;
 
 end
