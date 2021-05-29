@@ -12,6 +12,8 @@ function [fh, mTimeAvg, AQDataAvg] = displayAQTimeseries(matFilename, tRange, va
 %        y-axis range.
 %    flagCity: logical
 %        city flag to determine the type of input site. (default: true)
+%    site: char
+%        site.
 %    AQType: char
 %        air pollutant type. (default: pm10)
 %    averageType: char

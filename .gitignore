@@ -2,3 +2,4 @@
 *.asv
 .ipynb_checkpoints
 data/wuhan_AQData.mat
+my_analysis_scripts

@@ -56,7 +56,7 @@ else
     for iDay = 1:length(data.siteData)
         siteDailyData = data.siteData{iDay};
 
-        flagSiteCode = strcmp(data.siteLookupTab.site, site);
+        flagSiteCode = strcmp(data.siteLookupTab.siteName, site);
         if ~ any(flagSiteCode)
             warning('No measurements at %s', site);
             return;

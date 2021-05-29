@@ -72,9 +72,13 @@ if flagCity
         cityData{iFile} = cityDataTmp;
     end
 
-    %% save data
-    save(matFilename, 'cityData', 'cityLookupTab', '-v7.3');
-    flag = true;
+    if ~ isempty(cityAQFiles)
+        %% save data
+        save(matFilename, 'cityData', 'cityLookupTab', '-v7.3');
+        flag = true;
+    else
+        warning('No data files were found.');
+    end
 
 else
     % list air quality data filenames of different stations
@@ -108,8 +112,12 @@ else
         siteData{iFile} = siteDataTmp;
     end
 
-    %% save data
-    save(matFilename, 'siteData', 'siteLookupTab', '-v7.3');
-    flag = true;
+    if ~ isempty(siteAQFiles)
+        %% save data
+        save(matFilename, 'siteData', 'siteLookupTab', '-v7.3');
+        flag = true;
+    else
+        warning('No data files were found.');
+    end
 
 end

@@ -18,6 +18,8 @@ function [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargi
 %        pollutant type. (PM2.5, PM10, O3, NO2, SO2, CO)
 %    hour: numeric
 %        hour of measurement.
+%    AQUnit: char
+%        unit to be displayed on top of the colorbar.
 %    imgFile: char
 %        absolute path of file to export the figure.
 % OUTPUTS:
