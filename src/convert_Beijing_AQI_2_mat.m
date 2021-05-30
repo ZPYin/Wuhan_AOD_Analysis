@@ -3,12 +3,8 @@ projectDir = fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(projectDir, 'include', 'export_fig'));
 addpath(fullfile(projectDir, 'include'));
 
-%% set character encoding
-currentCharacterEncoding = slCharacterEncoding();
-slCharacterEncoding('UTF-8');
-
 %% Parameter initialization
-AQI_DataFolder = 'D:\Data\鍖椾含绌烘皵璐ㄩ噺';
+AQI_DataFolder = 'D:\Data\北京空气质量';
 matFilename = 'Beijing_AQ_data_before_20210119.mat';   % New station or station names were used after 20210119
 
 % station-city lookup table
@@ -26,7 +22,7 @@ end
 
 % read data from the national ground stations
 station_AQ_data = struct('time', NaN(1, 1e5), 'AQI', NaN(1, 1e5), 'PM2p5', NaN(1, 1e5), 'PM2p5_24h', NaN(1, 1e5), 'PM10', NaN(1, 1e5), 'PM10_24h', NaN(1, 1e5), 'SO2', NaN(1, 1e5), 'SO2_24h', NaN(1, 1e5), 'NO2', NaN(1, 1e5), 'NO2_24h', NaN(1, 1e5), 'O3', NaN(1, 1e5), 'O3_24h', NaN(1, 1e5), 'O3_8h', NaN(1, 1e5), 'O3_8h_24h', NaN(1, 1e5), 'CO', NaN(1, 1e5), 'CO_24h', NaN(1, 1e5));
-station_IDs = station_city_lookup_table.Station_ID(strcmp(station_city_lookup_table.City, '鍖椾含'));
+station_IDs = station_city_lookup_table.Station_ID(strcmp(station_city_lookup_table.City, '北京'));
 
 stations_AQ_data = struct();
 for indx = 1:length(station_IDs)
@@ -39,7 +35,7 @@ for iFile = 1:length(station_AQ_files)
     fprintf('Finished %5.2f%%: Reading stations -> %s\n', (iFile / length(station_AQ_files)) * 100, station_AQ_files{iFile});
     try
         % read beijing_all_********.csv
-        station_all_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+        station_all_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1, 'encoding', 'utf-8');
     catch errMsg
         warning('Error in reading %s', station_AQ_files{iFile});
         continue;
@@ -48,7 +44,7 @@ for iFile = 1:length(station_AQ_files)
     try
         if exist(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'file') == 2
             % read beijing_extra_********.csv
-            station_extra_table = readtable(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+            station_extra_table = readtable(strrep(station_AQ_files{iFile}, 'all', 'extra'), 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1, 'encoding', 'utf-8');
         end
     catch errMsg
         warning('Error in reading %s', strrep(station_AQ_files{iFile}, 'all', 'extra'));
@@ -56,7 +52,7 @@ for iFile = 1:length(station_AQ_files)
     end
 
     % read the first line
-    fid = fopen(station_AQ_files{iFile}, 'r');
+    fid = fopen(station_AQ_files{iFile}, 'r', 'n', 'UTF-8');
     headers = fgetl(fid);
     fclose(fid);
 

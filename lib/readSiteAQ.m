@@ -27,9 +27,6 @@ addParameter(p, 'siteList', {}, @iscell);
 
 parse(p, dataFile, varargin{:});
 
-% set character encoding
-slCharacterEncoding('UTF-8');
-
 siteLookupTab = struct();
 
 if exist(dataFile, 'file') ~= 2
@@ -37,7 +34,7 @@ if exist(dataFile, 'file') ~= 2
 end
 
 try
-    data = readtable(dataFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1);
+    data = readtable(dataFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1, 'encoding', 'utf-8');
 catch ErrMsg
     error('Error in reading %s', dataFile);
 end
@@ -54,7 +51,7 @@ if (length(data.date) >= 1)
 end
 
 % read data headers
-fid = fopen(dataFile, 'r');
+fid = fopen(dataFile, 'r', 'n', 'UTF-8');
 headers = fgetl(fid);
 fclose(fid);
 
@@ -78,7 +75,7 @@ if exist(p.Results.siteLookupFile, 'file') == 2
     [~, ~, fileExt] = fileparts(p.Results.siteLookupFile);
 
     if strcmp(fileExt, '.csv')
-        siteLookupTab = readtable(p.Results.siteLookupFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1);
+        siteLookupTab = readtable(p.Results.siteLookupFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1, 'encoding','utf-8');
         siteLookupTab.Properties.VariableNames{1} = 'code';
         siteLookupTab.Properties.VariableNames{2} = 'siteName';
         siteLookupTab.Properties.VariableNames{3} = 'city';

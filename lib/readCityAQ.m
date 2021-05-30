@@ -27,9 +27,6 @@ addParameter(p, 'cityList', {}, @iscell);
 
 parse(p, dataFile, varargin{:});
 
-% set character encoding
-slCharacterEncoding('UTF-8');
-
 cityLookupTab = struct();
 
 if exist(dataFile, 'file') ~= 2
@@ -37,7 +34,7 @@ if exist(dataFile, 'file') ~= 2
 end
 
 try
-    data = readtable(dataFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1, 'EmptyValue', NaN);
+    data = readtable(dataFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1, 'EmptyValue', NaN, 'encoding', 'utf-8');
 catch ErrMsg
     error('Error in reading %s', dataFile);
 end
@@ -59,7 +56,7 @@ if exist(p.Results.siteLookupFile, 'file') == 2
     [~, ~, fileExt] = fileparts(p.Results.siteLookupFile);
 
     if strcmp(fileExt, '.csv')
-        cityLookupTab = readtable(p.Results.siteLookupFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1);
+        cityLookupTab = readtable(p.Results.siteLookupFile, 'Delimiter', ',', 'ReadVariableNames', false, 'Headerlines', 1, 'encoding', 'utf-8');
         cityLookupTab.Properties.VariableNames{1} = 'code';
         cityLookupTab.Properties.VariableNames{2} = 'siteName';
         cityLookupTab.Properties.VariableNames{3} = 'city';
@@ -79,7 +76,7 @@ if exist(p.Results.siteLookupFile, 'file') == 2
 end
 
 % read data headers
-fid = fopen(dataFile, 'r');
+fid = fopen(dataFile, 'r', 'n', 'UTF-8');
 headers = fgetl(fid);
 fclose(fid);
 

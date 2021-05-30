@@ -3,23 +3,12 @@ projectDir = fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(projectDir, 'include', 'export_fig'));
 addpath(fullfile(projectDir, 'include'));
 
-%% set character encoding
-currentCharacterEncoding = slCharacterEncoding();
-slCharacterEncoding('UTF-8');   % 编码格式设置成UTF-8，跟我的原始保存格式一致。
-                                % 如果你当前的编码格式不是采用的UTF-8，则代码中文会显示乱码，但是运行依然会正常显示
-                                % 可是如果你使用的是不同的编码格式进行保存（matlab编辑器默认的是GBK，或者ISO-8859-1），那么当前中文内容将会永远乱码。
-                                % 建议阅读：https://iloveocean.top/index.php/archives/486/#:~:text=matlab%20%E8%8B%B1%E6%96%87%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%BB%98%E8%AE%A4,utf%2D8%20%E6%A0%BC%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A0%81%E3%80%82
-set(0,'defaultAxesFontName', 'simkai');   % 如果想显示中文，这里需要设置支持中文的字体（如：这里的楷体）
-                                          % 注意matlab默认字体为Helvetica，并不支持中文
-                                          % 如果想设置其他的字体，可以参考以下链接
-                                          % https://blog.csdn.net/m0_37052320/article/details/80296951
-
 %% initialization
 matFile = 'wuhan_air_quality_data.mat';
 tRange = [datenum(2014, 3, 1), datenum(2020, 12, 31)];
 analysis_year_list = 2015:2020;
-AQILevel = [0, 51, 101, 151, 201, 301];   % 参考我国标准：https://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
-AQILevel_label = {'优', '良', '轻度污染', '中度污染', '重度污染', '严重污染'};   % 每个AQI区间段对应的健康等级
+AQILevel = [0, 51, 101, 151, 201, 301];   % �ο��ҹ���׼��https://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
+AQILevel_label = {'��', '��', '�����Ⱦ', '�ж���Ⱦ', '�ض���Ⱦ', '������Ⱦ'};   % ÿ��AQI����ζ�Ӧ�Ľ����ȼ�
 AQILevel_color = [[0, 228, 0]/255;
                     [255, 255, 0]/255;
                     [255, 126, 0]/255;
@@ -28,7 +17,7 @@ AQILevel_color = [[0, 228, 0]/255;
                     [126, 0, 35]/255];
 nAQILevel = length(AQILevel);
 nPollutant = 7;
-pieAQIOrder = [1, 5, 2, 6, 3, 4];   % 将对应饼状图元素分离显示（防止重叠）
+pieAQIOrder = [1, 5, 2, 6, 3, 4];   % ����Ӧ��״ͼԪ�ط�����ʾ����ֹ�ص���
 
 %% load data
 load(fullfile(projectDir, 'data', matFile));
@@ -1149,28 +1138,28 @@ yearlyAQILevel_organize = yearlyAQILevel(pieAQIOrder, :);
 AQILevel_color_organize = AQILevel_color(pieAQIOrder, :);
 
 flagNonZero = abs(yearlyAQILevel_organize(:, 1)) > 1e-5;
-p1 = pie(ax1, yearlyAQILevel_organize(flagNonZero, 1));   % 将对应饼状图元素分离显示（防止重叠）
+p1 = pie(ax1, yearlyAQILevel_organize(flagNonZero, 1));   % ����Ӧ��״ͼԪ�ط�����ʾ����ֹ�ص���
 title('2015', 'FontSize', 14);
 colormap(ax1, AQILevel_color_organize(flagNonZero, :));
 
 ax2 = subplot('Position', figPos(2, :), 'Units', 'Normalized');
 
 flagNonZero = abs(yearlyAQILevel_organize(:, 2)) > 1e-5;
-p2 = pie(ax2, yearlyAQILevel_organize(flagNonZero, 2));   % 将对应饼状图元素分离显示（防止重叠）
+p2 = pie(ax2, yearlyAQILevel_organize(flagNonZero, 2));   % ����Ӧ��״ͼԪ�ط�����ʾ����ֹ�ص���
 title('2016', 'FontSize', 14);
 colormap(ax2, AQILevel_color_organize(flagNonZero, :));
 
 ax3 = subplot('Position', figPos(3, :), 'Units', 'Normalized');
 
 flagNonZero = abs(yearlyAQILevel_organize(:, 3)) > 1e-5;
-p3 = pie(ax3, yearlyAQILevel_organize(flagNonZero, 3));   % 将对应饼状图元素分离显示（防止重叠）
+p3 = pie(ax3, yearlyAQILevel_organize(flagNonZero, 3));   % ����Ӧ��״ͼԪ�ط�����ʾ����ֹ�ص���
 title('2017', 'FontSize', 14);
 colormap(ax3, AQILevel_color_organize(flagNonZero, :));
 
 ax4 = subplot('Position', figPos(4, :), 'Units', 'Normalized');
 
 flagNonZero = abs(yearlyAQILevel_organize(:, 4)) > 1e-5;
-p4 = pie(ax4, yearlyAQILevel_organize(flagNonZero, 4));   % 将对应饼状图元素分离显示（防止重叠）
+p4 = pie(ax4, yearlyAQILevel_organize(flagNonZero, 4));   % ����Ӧ��״ͼԪ�ط�����ʾ����ֹ�ص���
 title('2018', 'FontSize', 14);
 
 colormap(ax4, AQILevel_color_organize(flagNonZero, :));
@@ -1178,7 +1167,7 @@ colormap(ax4, AQILevel_color_organize(flagNonZero, :));
 ax5 = subplot('Position', figPos(5, :), 'Units', 'Normalized');
 
 flagNonZero = abs(yearlyAQILevel_organize(:, 5)) > 1e-5;
-p5 = pie(ax5, yearlyAQILevel_organize(flagNonZero, 5));   % 将对应饼状图元素分离显示（防止重叠）
+p5 = pie(ax5, yearlyAQILevel_organize(flagNonZero, 5));   % ����Ӧ��״ͼԪ�ط�����ʾ����ֹ�ص���
 title('2019', 'FontSize', 14);
 
 colormap(ax5, AQILevel_color_organize(flagNonZero, :));

@@ -23,9 +23,6 @@ function [flag] = convertAQData(dataPath, siteLookupFile, site, flagCity, dateRa
 %    2021-05-06: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de
 
-% set character encoding
-slCharacterEncoding('UTF-8');
-
 p = inputParser;
 p.KeepUnmatched = true;
 
@@ -42,7 +39,7 @@ parse(p, dataPath, siteLookupFile, site, flagCity, dateRange, matFilename, varar
 if flagCity
     % list air quality data filenames of different city
     cityAQFiles = {};
-    cityAQFolders = listdir(dataPath, 'åŸŽå¸‚_\w{8}-\w{8}');
+    cityAQFolders = listdir(dataPath, '³ÇÊÐ_\w{8}-\w{8}');
 
     for iFolder = 1:length(cityAQFolders)
         files = listfile(cityAQFolders{iFolder}, 'china_cities_\w{8}.*csv');
@@ -83,7 +80,7 @@ if flagCity
 else
     % list air quality data filenames of different stations
     siteAQFiles = {};
-    siteAQFolders = listdir(dataPath, 'ç«™ç‚¹_\w{8}-\w{8}');
+    siteAQFolders = listdir(dataPath, 'Õ¾µã_\w{8}-\w{8}');
 
     for iFolder = 1:length(siteAQFolders)
         files = listfile(siteAQFolders{iFolder}, 'china_sites_\w{8}.*csv');

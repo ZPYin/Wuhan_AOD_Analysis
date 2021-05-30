@@ -6,7 +6,7 @@ function [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargi
 %    dataFile: char
 %        absolute path of the csv data file for cities. (e.g., 'china_cities_20200101.csv')
 %    siteLookupFile: char
-%        absolute path of the csv site lookup file. (e.g., 'ç«™ç‚¹åˆ—è¡¨-2020.12.06èµ·.csv')
+%        absolute path of the csv site lookup file. (e.g., 'Õ¾µãÁÐ±í-2020.12.06Æð.csv')
 % KEYWORDS:
 %    latRange: 2-element array
 %        latitude range. (degree)
@@ -31,9 +31,6 @@ function [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargi
 % HISTORY:
 %    2021-04-30: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de
-
-% set character encoding
-slCharacterEncoding('UTF-8');
 
 p = inputParser;
 p.KeepUnmatched = true;

@@ -3,13 +3,6 @@ projectDir = fileparts(fileparts(mfilename('fullpath')));
 addpath(genpath(fullfile(projectDir, 'include')));
 addpath(genpath(fullfile(projectDir, 'lib')));
 
-%% set character encoding
-currentCharacterEncoding = slCharacterEncoding();
-slCharacterEncoding('UTF-8');   % ç¼–ç æ ¼å¼è®¾ç½®æˆUTF-8ï¼Œè·Ÿæˆ‘çš„åŸå§‹ä¿å­˜æ ¼å¼ä¸€è‡´ã€‚
-                                % å¦‚æœä½ å½“å‰çš„ç¼–ç æ ¼å¼ä¸æ˜¯é‡‡ç”¨çš„UTF-8ï¼Œåˆ™ä»£ç ä¸­æ–‡ä¼šæ˜¾ç¤ºä¹±ç ï¼Œä½†æ˜¯è¿è¡Œä¾ç„¶ä¼šæ­£å¸¸æ˜¾ç¤º
-                                % å¯æ˜¯å¦‚æœä½ ä½¿ç”¨çš„æ˜¯ä¸åŒçš„ç¼–ç æ ¼å¼è¿›è¡Œä¿å­˜ï¼ˆmatlabç¼–è¾‘å™¨é»˜è®¤çš„æ˜¯GBKï¼Œæˆ–è€…ISO-8859-1ï¼‰ï¼Œé‚£ä¹ˆå½“å‰ä¸­æ–‡å†…å®¹å°†ä¼šæ°¸è¿œä¹±ç ã€‚
-                                % å»ºè®®é˜…è¯»ï¼šhttps://iloveocean.top/index.php/archives/486/#:~:text=matlab%20%E8%8B%B1%E6%96%87%E7%8E%AF%E5%A2%83%E4%B8%8B%E9%BB%98%E8%AE%A4,utf%2D8%20%E6%A0%BC%E5%BC%8F%E8%BF%9B%E8%A1%8C%E7%BC%96%E7%A0%81%E3%80%82
-
 %% initialization
 matFilename = fullfile(projectDir, 'data', 'wuhan_AQData.mat');
 imgFile = 'C:\Users\zpyin\Desktop\test_AQ_timeseries.png';
@@ -22,36 +15,36 @@ outputTxtFile6 = 'C:\Users\zpyin\Desktop\PM10_wuhan_daily.txt';
 tRange = [datenum(2019, 1, 1), datenum(2019, 4, 1)];
 
 %% data import
-% è¯»å–æ•°æ®å‚è€ƒexample_read_AQ_data.m
+% ¶ÁÈ¡Êı¾İ²Î¿¼example_read_AQ_data.m
 
 %% data visualization
 
-% PM10æ•°æ®æ—¶é—´åºåˆ—
+% PM10Êı¾İÊ±¼äĞòÁĞ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'raw');
 
-% PM10æ•°æ®æ—¶é—´åºåˆ—ï¼Œå¹¶ä¿å­˜å›¾ç‰‡
+% PM10Êı¾İÊ±¼äĞòÁĞ£¬²¢±£´æÍ¼Æ¬
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'raw', 'imgFile', imgFile);
 
-% PM10æ•°æ®æ—¶é—´åºåˆ—ï¼Œä¸æ˜¾ç¤ºå›¾å½¢çª—å£ï¼Œä¿å­˜å›¾ç‰‡
+% PM10Êı¾İÊ±¼äĞòÁĞ£¬²»ÏÔÊ¾Í¼ĞÎ´°¿Ú£¬±£´æÍ¼Æ¬
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'raw', 'visible', 'off', 'imgFile', imgFile);
 
-% PM10æ•°æ®æ—¶é—´åºåˆ—ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% PM10Êı¾İÊ±¼äĞòÁĞ£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'raw', 'outputDataFile', outputTxtFile1);
 
-% PM10æœˆä»½å¹³å‡æ—¶é—´åºåˆ—ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% PM10ÔÂ·İÆ½¾ùÊ±¼äĞòÁĞ£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'monthly', 'outputDataFile', outputTxtFile2);
 
-% PM10å¹´å¹³å‡æ—¶é—´åºåˆ—ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% PM10ÄêÆ½¾ùÊ±¼äĞòÁĞ£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'annual', 'outputDataFile', outputTxtFile3);
 
-% PM10å­£èŠ‚å¹³å‡æ—¶é—´åºåˆ—ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% PM10¼¾½ÚÆ½¾ùÊ±¼äĞòÁĞ£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'seasonal', 'outputDataFile', outputTxtFile4);
 
-% PM10å‘¨æ—¥å¹³å‡å˜åŒ–æ—¶é—´åºåˆ—ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% PM10ÖÜÈÕÆ½¾ù±ä»¯Ê±¼äĞòÁĞ£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'diurnal', 'outputDataFile', outputTxtFile5);
 
-% PM10æ—¥å¹³å‡å˜åŒ–æ—¶é—´åºåˆ—ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% PM10ÈÕÆ½¾ù±ä»¯Ê±¼äĞòÁĞ£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQType', 'pm10', 'averageType', 'daily', 'outputDataFile', outputTxtFile6);
 
-% AQIåˆ†å¸ƒçš„é¥¼å›¾ï¼ˆè®¾å®šæ—¥æœŸå†…æ•°æ®çš„ç»Ÿè®¡ç»“æœï¼‰ï¼Œä¿å­˜ä½œå›¾æ•°æ®
+% AQI·Ö²¼µÄ±ıÍ¼£¨Éè¶¨ÈÕÆÚÄÚÊı¾İµÄÍ³¼Æ½á¹û£©£¬±£´æ×÷Í¼Êı¾İ
 displayAQTimeseries(matFilename, tRange, 'AQtype', 'AQI', 'averageType', 'aqi-pie', 'outputDataFile', outputTxtFile6);

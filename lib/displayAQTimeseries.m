@@ -10,10 +10,12 @@ function [fh, mTimeAvg, AQDataAvg] = displayAQTimeseries(matFilename, tRange, va
 % KEYWORDS:
 %    yRange: 2-element array
 %        y-axis range.
+%    ylabel: char
+%        label of y-axis (default: 'Concentration (\mug/m^3)').
 %    flagCity: logical
 %        city flag to determine the type of input site. (default: true)
 %    site: char
-%        site.
+%        site (default: 'Œ‰∫∫').
 %    AQType: char
 %        air pollutant type. (default: pm10)
 %    averageType: char
@@ -43,7 +45,7 @@ function [fh, mTimeAvg, AQDataAvg] = displayAQTimeseries(matFilename, tRange, va
 % .. Authors: - zhenping@tropos.de
 
 % set character encoding
-slCharacterEncoding('UTF-8');
+% slCharacterEncoding('UTF-8');
 
 %% initialization
 p = inputParser;
@@ -52,8 +54,9 @@ p.KeepUnmatched = true;
 addRequired(p, 'matFilename', @ischar);
 addRequired(p, 'tRange', @isnumeric);
 addParameter(p, 'yRange', [0, 200], @isnumeric);
+addParameter(p, 'ylabel', 'Concentration (\mug/m^3)', @ischar);
 addParameter(p, 'flagCity', true, @islogical);
-addParameter(p, 'site', 'Ê≠¶Ê±â', @ischar);
+addParameter(p, 'site', 'Œ‰∫∫', @ischar);
 addParameter(p, 'AQType', 'pm10', @ischar);
 addParameter(p, 'averageType', 'raw', @ischar);
 addParameter(p, 'imgFile', '', @ischar);
@@ -79,7 +82,7 @@ case {'raw'}
     ylim(p.Results.yRange);
 
     xlabel('Date');
-    ylabel('Concentration (\mug/m^3)');
+    ylabel(p.Results.ylabel);
     title(sprintf('\\fontname{Arial}%s concentration at \\fontname{Kaiti}%s', p.Results.AQType, p.Results.site));
 
     set(gca, 'XTick', linspace(tRange(1), tRange(2), 6), 'XMinorTick', 'off', 'YTick', linspace(p.Results.yRange(1), p.Results.yRange(2), 5), 'YMinorTick', 'on', 'Box', 'on', 'linewidth', 2, 'Layer', 'top');
@@ -110,7 +113,7 @@ case {'monthly'}
     ylim(p.Results.yRange);
 
     xlabel('Date');
-    ylabel('Concentration (\mug/m^3)');
+    ylabel(p.Results.ylabel);
     title(sprintf('\\fontname{Arial}Monthly %s concentration at \\fontname{Kaiti}%s', p.Results.AQType, p.Results.site));
 
     set(gca, 'XTick', linspace(tRange(1), tRange(2), 6), 'XMinorTick', 'off', 'YTick', linspace(p.Results.yRange(1), p.Results.yRange(2), 5), 'YMinorTick', 'on', 'Box', 'on', 'linewidth', 2, 'Layer', 'top');
@@ -141,7 +144,7 @@ case {'annual'}
     ylim(p.Results.yRange);
 
     xlabel('Date');
-    ylabel('Concentration (\mug/m^3)');
+    ylabel(p.Results.ylabel);
     title(sprintf('\\fontname{Arial}Annual %s concentration at \\fontname{Kaiti}%s', p.Results.AQType, p.Results.site));
 
     set(gca, 'XTick', linspace(tRange(1), tRange(2), 6), 'XMinorTick', 'off', 'YTick', linspace(p.Results.yRange(1), p.Results.yRange(2), 5), 'YMinorTick', 'on', 'Box', 'on', 'linewidth', 2, 'Layer', 'top');
@@ -172,7 +175,7 @@ case {'season', 'seasonal'}
     xlim(tRange);
     xlim([0.2, 4.8]);
 
-    ylabel('Concentration (\mug/m^3)');
+    ylabel(p.Results.ylabel);
     title(sprintf('\\fontname{Arial}Daily %s concentration at \\fontname{Kaiti}%s', p.Results.AQType, p.Results.site));
 
     set(gca, 'XTick', 1:4, 'XTickLabel', tickLabels, 'XMinorTick', 'off', 'YTick', linspace(p.Results.yRange(1), p.Results.yRange(2), 5), 'YMinorTick', 'on', 'Box', 'on', 'linewidth', 2, 'Layer', 'top');
@@ -201,7 +204,7 @@ case {'diurnal'}
     xlim([0, 24]);
 
     xlabel('Hour');
-    ylabel('Concentration (\mug/m^3)');
+    ylabel(p.Results.ylabel);
     title(sprintf('\\fontname{Arial}Diurnal %s concentration at \\fontname{Kaiti}%s', p.Results.AQType, p.Results.site));
 
     set(gca, 'XTick', 0:3:24, 'XMinorTick', 'off', 'YTick', linspace(p.Results.yRange(1), p.Results.yRange(2), 5), 'YMinorTick', 'on', 'Box', 'on', 'linewidth', 2, 'Layer', 'top');
@@ -232,7 +235,7 @@ case {'daily'}
     ylim(p.Results.yRange);
 
     xlabel('Date');
-    ylabel('Concentration (\mug/m^3)');
+    ylabel(p.Results.ylabel);
     title(sprintf('\\fontname{Arial}Daily %s concentration at \\fontname{Kaiti}%s', p.Results.AQType, p.Results.site));
 
     set(gca, 'XTick', linspace(tRange(1), tRange(2), 6), 'XMinorTick', 'off', 'YTick', linspace(p.Results.yRange(1), p.Results.yRange(2), 5), 'YMinorTick', 'on', 'Box', 'on', 'linewidth', 2, 'Layer', 'top');
@@ -259,8 +262,8 @@ case {'aqi-pie'}
     end
 
     % pie plot of AQI
-    AQILevel = [0, 51, 101, 151, 201, 301];   % ÂèÇËÄÉÊàëÂõΩÊ†áÂáÜÔºöhttps://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
-    AQILevel_label = {'‰ºò', 'ËâØ', 'ËΩªÂ∫¶Ê±°Êüì', '‰∏≠Â∫¶Ê±°Êüì', 'ÈáçÂ∫¶Ê±°Êüì', '‰∏•ÈáçÊ±°Êüì'};   % ÊØè‰∏™AQIÂå∫Èó¥ÊÆµÂØπÂ∫îÁöÑÂÅ•Â∫∑Á≠âÁ∫ß
+    AQILevel = [0, 51, 101, 151, 201, 301];   % ≤ŒøºŒ“π˙±Í◊º£∫https://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
+    AQILevel_label = {'”≈', '¡º', '«·∂»Œ€»æ', '÷–∂»Œ€»æ', '÷ÿ∂»Œ€»æ', '—œ÷ÿŒ€»æ'};   % √ø∏ˆAQI«¯º‰∂Œ∂‘”¶µƒΩ°øµµ»º∂
     AQILevel_color = [[0, 228, 0]/255;
                         [255, 255, 0]/255;
                         [255, 126, 0]/255;

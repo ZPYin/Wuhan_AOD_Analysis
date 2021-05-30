@@ -3,19 +3,15 @@ projectDir = fileparts(fileparts(mfilename('fullpath')));
 addpath(fullfile(projectDir, 'include', 'export_fig'));
 addpath(fullfile(projectDir, 'include'));
 
-%% set character encoding
-currentCharacterEncoding = slCharacterEncoding();
-slCharacterEncoding('UTF-8');
-
 %% Parameter initialization
-AQI_DataFolder = 'D:\Data\å…¨å›½ç©ºæ°”è´¨é‡\v_202101';
-city = 'æ­¦æ±‰';
-station_city_lookup_file = 'ç«™ç‚¹åˆ—è¡¨-2020.12.06èµ·.csv';
+AQI_DataFolder = 'D:\Data\È«¹ú¿ÕÆøÖÊÁ¿\v_202101';
+city = 'Îäºº';
+station_city_lookup_file = 'Õ¾µãÁÐ±í-2020.12.06Æð.csv';
 matFilename = 'wuhan_air_quality_data.mat';
 
 %% read data
 % read the station-city link table
-station_city_lookup_table = readtable(fullfile(AQI_DataFolder, station_city_lookup_file), 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+station_city_lookup_table = readtable(fullfile(AQI_DataFolder, station_city_lookup_file), 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1, 'encoding', 'utf-8');
 
 % change table variable names
 station_city_lookup_table.Properties.VariableNames{'Var1'} = 'Station_ID';
@@ -26,7 +22,7 @@ station_city_lookup_table.Properties.VariableNames{'Var5'} = 'Station_lat';
 
 % list air quality data filenames of different city
 city_AQ_files = {};
-city_AQ_folders = listdir(AQI_DataFolder, 'åŸŽå¸‚_\w{8}-\w{8}');
+city_AQ_folders = listdir(AQI_DataFolder, '³ÇÊÐ_\w{8}-\w{8}');
 
 for iFolder = 1:length(city_AQ_folders)
     files = listfile(city_AQ_folders{iFolder}, 'china_cities_\w{8}.*csv');
@@ -35,7 +31,7 @@ end
 
 % list air quality data filenames of different stations
 station_AQ_files = {};
-station_AQ_folders = listdir(AQI_DataFolder, 'ç«™ç‚¹_\w{8}-\w{8}');
+station_AQ_folders = listdir(AQI_DataFolder, 'Õ¾µã_\w{8}-\w{8}');
 
 for iFolder = 1:length(station_AQ_folders)
     files = listfile(station_AQ_folders{iFolder}, 'china_sites_\w{8}.*csv');
@@ -50,14 +46,14 @@ for iFile = 1:length(city_AQ_files)
     fprintf('Finished %5.2f%%: Reading cities -> %s\n', (iFile / length(city_AQ_files)) * 100, city_AQ_files{iFile});
 
     try
-        city_AQ_daily_table = readtable(city_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+        city_AQ_daily_table = readtable(city_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1, 'encoding', 'utf-8');
     catch ErrMsg
         warning('Error in reading %s', city_AQ_files{iFile});
         continue;
     end
 
     % read the first line
-    fid = fopen(city_AQ_files{iFile}, 'r');
+    fid = fopen(city_AQ_files{iFile}, 'r', 'n', 'UTF-8');
     headers = fgetl(fid);
     fclose(fid);
 
@@ -128,14 +124,14 @@ for iFile = 1:length(station_AQ_files)
     fprintf('Finished %5.2f%%: Reading stations -> %s\n', (iFile / length(station_AQ_files)) * 100, station_AQ_files{iFile});
 
     try
-        station_AQ_daily_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1);
+        station_AQ_daily_table = readtable(station_AQ_files{iFile}, 'Delimiter', ',', 'ReadVariableNames', 0, 'Headerlines', 1, 'encoding', 'utf-8');
     catch ErrMsg
         warning('Error in reading %s', station_AQ_files{iFile});
         continue;
     end
 
     % read the first line
-    fid = fopen(station_AQ_files{iFile}, 'r');
+    fid = fopen(station_AQ_files{iFile}, 'r', 'n', 'UTF-8');
     headers = fgetl(fid);
     fclose(fid);
 
