@@ -44,9 +44,6 @@ function [fh, mTimeAvg, AQDataAvg] = displayAQTimeseries(matFilename, tRange, va
 %    2021-05-05: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de
 
-% set character encoding
-% slCharacterEncoding('UTF-8');
-
 %% initialization
 p = inputParser;
 p.KeepUnmatched = true;

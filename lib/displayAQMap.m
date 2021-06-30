@@ -44,6 +44,7 @@ addParameter(p, 'type', 'PM10', @ischar);
 addParameter(p, 'AQUnit', '\mug/m^3', @ischar);
 addParameter(p, 'hour', 0, @isnumeric);
 addParameter(p, 'imgFile', '', @ischar);
+addParameter(p, 'shpFile', 'D:\Data\boundary\china-geospatial-data-GB2312\CN-border-La.shp', @ischar);
 
 parse(p, dataFile, siteLookupFile, varargin{:});
 
@@ -77,7 +78,7 @@ fh = figure('Color', 'w', 'Position', [20, 40, 500, 400], 'Units', 'Pixels');
 ax1 = axes('Position', [-0.17, 0, 1.3, 1.1], 'Units', 'Normalized');
 axes(ax1);
 
-axesm('MapProjection', 'lambertstd', 'MLabelParallel', 'South', ...
+axesm('MapProjection', 'utm', 'MLabelParallel', 'South', ...
              'Frame', 'off', 'MeridianLabel', 'on', ...
              'MapLatLimit', p.Results.latRange, 'MapLonLimit', p.Results.lonRange);
 
@@ -92,8 +93,9 @@ scatterm(lat, lon, 10, AQData, 'filled');
 colormap('jet');
 hold on;
 
-shpChinaProv = load('china.province.mat');
-plotm(shpChinaProv.lat, shpChinaProv.long, 'color', 'k', 'LineWidth', 0.5);
+% shpChinaProv = load('china.province.mat');
+% plotm(shpChinaProv.lat, shpChinaProv.long, 'color', 'k', 'LineWidth', 0.5);
+% geoshow(p.Results.shpFile, 'color', 'k');
 
 caxis(p.Results.cRange);
 mlabel off; plabel off; gridm off;
@@ -107,7 +109,7 @@ tightmap;
 
 % export figure
 if ~ isempty(p.Results.imgFile)
-    export_fig(gcf, p.Results.imgFile, '-r300');
+    export_fig(gcf, p.Results.imgFile, '-r300', '-transparent');
 end
 
 end
