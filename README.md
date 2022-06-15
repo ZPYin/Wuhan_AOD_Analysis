@@ -103,6 +103,6 @@ A: See details [here](doc/how_to_run_the_code.md)
 Zhenping <zp.yin@whu.edu.cn>
 
 [1]: https://giovanni.gsfc.nasa.gov/
-[2]: http://beijingair.sinaapp.com/
+[2]: https://quotsoft.net/air/
 [3]: https://www.airnow.gov/index.cfm?action=aqibasics.aqi
 [4]: https://www.sciencedirect.com/science/article/pii/S0160412015300878

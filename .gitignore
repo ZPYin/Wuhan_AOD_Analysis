@@ -6,3 +6,4 @@ my_analysis_scripts
 # temporary files
 *.asv
 data/wuhan_AQData.mat
+data/*.mat
