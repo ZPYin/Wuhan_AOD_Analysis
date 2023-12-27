@@ -1,7 +1,9 @@
 function [mTime, AQData] = extractAQData(matFilename, tRange, flagCity, site, AQType)
 % EXTRACTAQDATA extract air pollutant data from mat file.
+%
 % USAGE:
 %    [mTime, AQData] = extractAQData(matFilename, tRange, flagCity, site, AQType)
+%
 % INPUTS:
 %    matFilename: char
 %        absolute path of mat data file.
@@ -13,12 +15,13 @@ function [mTime, AQData] = extractAQData(matFilename, tRange, flagCity, site, AQ
 %        site.
 %    AQType: char
 %        air pollutant label.
+%
 % OUTPUTS:
 %    mTime: array
 %        measurement time for each data entry.
 %    AQData: array
 %        air pollutant concentration.
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-05-05: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de

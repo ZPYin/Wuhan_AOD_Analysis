@@ -1,14 +1,11 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(fullfile(projectDir, 'include', 'export_fig'));
-addpath(fullfile(projectDir, 'include'));
+global WAOD_ENVS;
 
 %% Parameter initialization
 AQI_DataFolder = 'D:\Data\北京空气质量';
 matFilename = 'Beijing_AQ_data_before_20210119.mat';   % New station or station names were used after 20210119
 
 % station-city lookup table
-load(fullfile(projectDir, 'data', 'Beijing_city_station_lookup_table.mat'));
+load(fullfile(WAOD_ENVS.RootPath, 'data', 'Beijing_city_station_lookup_table.mat'));
 station_city_lookup_table = Beijing_city_station_lookup_table;
 
 % list air quality data filenames of different stations
@@ -130,4 +127,4 @@ for iID = 1:length(IDs)
     stations_AQ_data.(IDs{iID}) = station_AQ_data;
 end
 
-save(fullfile(projectDir, 'data', matFilename), 'station_city_lookup_table', 'stations_AQ_data');
+save(fullfile(WAOD_ENVS.RootPath, 'data', matFilename), 'station_city_lookup_table', 'stations_AQ_data');

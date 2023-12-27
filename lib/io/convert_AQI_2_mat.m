@@ -1,7 +1,4 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(fullfile(projectDir, 'include', 'export_fig'));
-addpath(fullfile(projectDir, 'include'));
+global WAOD_ENVS;
 
 %% Parameter initialization
 AQI_DataFolder = 'D:\Data\全国空气质量\v_202101';
@@ -209,4 +206,4 @@ for iID = 1:length(IDs)
     stations_AQ_data.(IDs{iID}) = station_AQ_data;
 end
 
-save(fullfile(projectDir, 'data', matFilename), 'city_AQ_data', 'station_city_lookup_table', 'stations_AQ_data');
+save(fullfile(WAOD_ENVS.RootPath, 'data', matFilename), 'city_AQ_data', 'station_city_lookup_table', 'stations_AQ_data');

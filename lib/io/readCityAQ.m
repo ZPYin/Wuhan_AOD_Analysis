@@ -1,19 +1,23 @@
 function [data, cityLookupTab] = readCityAQ(dataFile, varargin)
 % READCITYAQ read air pollutants data of every city (or given cities).
+%
 % USAGE:
 %    [data] = readCityAQ(dataFile)
+%
 % INPUTS:
 %    dataFile: char
 %        path of the air pollutant data file.
+%
 % KEYWORDS:
 %    siteLookupFile: char
 %    cityList: cell
+%
 % OUTPUTS:
 %    data: table
 %        datetime
 %        s+cityCode
 %        type
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-04-29: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de

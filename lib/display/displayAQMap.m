@@ -1,5 +1,6 @@
 function [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargin)
 % DISPLAYAQMAP display map of air pollutants.
+%
 % USAGE:
 %    [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargin)
 % INPUTS:
@@ -7,6 +8,7 @@ function [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargi
 %        absolute path of the csv data file for cities. (e.g., 'china_cities_20200101.csv')
 %    siteLookupFile: char
 %        absolute path of the csv site lookup file. (e.g., '站点列表-2020.12.06起.csv')
+%
 % KEYWORDS:
 %    latRange: 2-element array
 %        latitude range. (degree)
@@ -22,12 +24,13 @@ function [fh, lat, lon, AQData] = displayAQMap(dataFile, siteLookupFile, varargi
 %        unit to be displayed on top of the colorbar.
 %    imgFile: char
 %        absolute path of file to export the figure.
+%
 % OUTPUTS:
 %    fh: figure handle
 %    lat: numeric
 %    lon: numeric
 %    AQData: numeric
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-04-30: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de

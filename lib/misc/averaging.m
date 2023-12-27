@@ -1,37 +1,42 @@
 function [timeOut, dataOut, dataStd] = averaging(timeIn, dataIn, varargin)
-%averaging average the input timeseries data.
-%Example:
-%   % Usecase 1: daily averaging
-%   [timeList, dataOut, dataStd] = averaging(timeIn, dataIn, 'type', 'daily');
-%   % Usecase 2: filter outliers
-%   [timeList, dataOut, dataStd] = averaging(timeIn, dataIn, 'data_range', [0, 1]);
-%Inputs:
-%   timeIn: numeric
-%       time in MATLAB datenum.
-%   dataIn: numeric
-%       measurements at each timestamp.
-%Keywords:
-%   type: averaging scheme
-%       - annual
-%       - month
-%       - day (default)
-%       - season | seasonal
-%       - diurnal
-%   data_range: 2-element array
-%       valid data range.
-%   min_cases: integer
-%       minimum case number for each averaging segment. (default: 1)
-%Outputs:
-%   timeList: numeric
-%       timestamp for each averaging period.
-%   dataOut: numeric
-%       averaged results at each segment.
-%   dataStd: numeric
-%       uncertainty at each segment.
-%History:
-%   2020-12-08. First Edition by Zhenping
-%Contact:
-%   zp.yin@whu.edu.cn
+% AVERAGING average the input timeseries data.
+% USAGE:
+%    % Usecase 1: daily averaging
+%    [timeList, dataOut, dataStd] = averaging(timeIn, dataIn, 'type', 'daily');
+%    % Usecase 2: filter outliers
+%    [timeList, dataOut, dataStd] = averaging(timeIn, dataIn, 'data_range', [0, 1]);
+%
+% INPUTS:
+%    timeIn: numeric
+%        time in MATLAB datenum.
+%    dataIn: numeric
+%        measurements at each timestamp.
+%
+% KEYWORDS:
+%    type: averaging scheme
+%        - annual
+%        - month
+%        - day (default)
+%        - season | seasonal
+%        - diurnal
+%    data_range: 2-element array
+%        valid data range.
+%    min_cases: integer
+%        minimum case number for each averaging segment. (default: 1)
+%
+% OUTPUTS:
+%    timeList: numeric
+%        timestamp for each averaging period.
+%    dataOut: numeric
+%        averaged results at each segment.
+%    dataStd: numeric
+%        uncertainty at each segment.
+%
+% HISTORY:
+%    2020-12-08. First Edition by Zhenping
+%
+% CONTACT:
+%    zp.yin@whu.edu.cn
 
 p = inputParser;
 p.KeepUnmatched = true;

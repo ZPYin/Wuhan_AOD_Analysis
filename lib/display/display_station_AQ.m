@@ -1,7 +1,4 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(fullfile(projectDir, 'include', 'export_fig'));
-addpath(fullfile(projectDir, 'include'));
+global WAOD_ENVS;
 set(0,'defaultAxesFontName', 'simkai');   % 如果想显示中文，这里需要设置支持中文的字体（如：这里的楷体）
                                           % 注意matlab默认字体为Helvetica，并不支持中文
                                           % 如果想设置其他的字体，可以参考以下链接
@@ -25,7 +22,7 @@ nPollutant = 7;
 pieAQIOrder = [1, 5, 2, 6, 3, 4];   % 将对应饼状图元素分离显示（防止重叠）
 
 %% load data
-load(fullfile(projectDir, 'data', matFile));
+load(fullfile(WAOD_ENVS.RootPath, 'data', matFile));
 
 %% load station data
 try
@@ -275,8 +272,8 @@ legend([s1], 'Location', 'NorthEast');
 text(0, 3.1, sprintf('Time series of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('time-series-AQ-%s.png', stationName)), '-r300');
-saveas(gcf, fullfile(projectDir, 'img', sprintf('time-series-AQ-%s.fig', stationName)));
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('time-series-AQ-%s.png', stationName)), '-r300');
+saveas(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('time-series-AQ-%s.fig', stationName)));
 
 %% diurnal trend
 figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
@@ -394,7 +391,7 @@ text(-0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cent
 text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('diurnal-AQ-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('diurnal-AQ-%s.png', stationName)), '-r300');
 
 %% seasonal trend
 figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
@@ -508,7 +505,7 @@ legend([b1], 'Location', 'NorthWest');
 text(0, 3.1, sprintf('Seasonal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-AQ-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-AQ-%s.png', stationName)), '-r300');
 
 %% yearly trend
 figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
@@ -626,7 +623,7 @@ text(-0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cent
 text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('yearly-AQ-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('yearly-AQ-%s.png', stationName)), '-r300');
 
 %% seasonal-diurnal variations
 %% PM2p5 and PM10
@@ -715,7 +712,7 @@ text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cen
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-diurnal-PM-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-PM-%s.png', stationName)), '-r300');
 
 %% AQI
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -799,7 +796,7 @@ text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cen
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-diurnal-AQI-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-AQI-%s.png', stationName)), '-r300');
 
 %% SO2
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -883,7 +880,7 @@ text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cen
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-diurnal-SO2-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-SO2-%s.png', stationName)), '-r300');
 
 %% NO2
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -967,7 +964,7 @@ text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cen
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-diurnal-NO2-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-NO2-%s.png', stationName)), '-r300');
 
 %% O3
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -1051,7 +1048,7 @@ text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cen
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-diurnal-O3-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-O3-%s.png', stationName)), '-r300');
 
 %% CO
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -1135,7 +1132,7 @@ text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'cen
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('seasonal-diurnal-CO-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-CO-%s.png', stationName)), '-r300');
 
 %% yearly AQI level
 figure('Position', [0, 30, 500, 700], 'Units', 'Pixels', 'color', 'w');
@@ -1187,4 +1184,4 @@ p6 = pie(ax6, ones(1, nAQILevel));
 colormap(ax6, AQILevel_color);
 legend(AQILevel_label, 'Position', [0.6, 0.06, 0.25, 0.23], 'Orientation', 'Vertical', 'Units', 'Normalized', 'FontWeight', 'Bold');
 
-export_fig(gcf, fullfile(projectDir, 'img', sprintf('AQI-level-%s.png', stationName)), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('AQI-level-%s.png', stationName)), '-r300');

@@ -1,11 +1,14 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(fullfile(projectDir, 'include', 'export_fig'));
-addpath(fullfile(projectDir, 'include'));
+global WAOD_ENVS;
+
+set(0,'defaultAxesFontName', 'simkai');   % 如果想显示中文，这里需要设置支持中文的字体（如：这里的楷体）
+                                          % 注意matlab默认字体为Helvetica，并不支持中文
+                                          % 如果想设置其他的字体，可以参考以下链接
+                                          % https://blog.csdn.net/m0_37052320/article/details/80296951
 
 %% initialization
-matFile = 'wuhan_air_quality_data.mat';
+matFile = 'Beijing_AQ_data_before_20210119.mat';
 tRange = [datenum(2014, 3, 1), datenum(2020, 12, 31)];
+stationName = '奥体中心';
 analysis_year_list = 2015:2020;
 AQILevel = [0, 51, 101, 151, 201, 301];   % 参考我国标准：https://web.archive.org/web/20190713234941/http://kjs.mee.gov.cn/hjbhbz/bzwb/jcffbz/201203/W020120410332725219541.pdf
 AQILevel_label = {'优', '良', '轻度污染', '中度污染', '重度污染', '严重污染'};   % 每个AQI区间段对应的健康等级
@@ -20,17 +23,22 @@ nPollutant = 7;
 pieAQIOrder = [1, 5, 2, 6, 3, 4];   % 将对应饼状图元素分离显示（防止重叠）
 
 %% load data
-load(fullfile(projectDir, 'data', matFile));
+load(fullfile(WAOD_ENVS.RootPath, 'data', matFile));
 
-%% data analysis
-time = city_AQ_data.time;
-AQI = city_AQ_data.AQI;
-SO2 = city_AQ_data.SO2;
-PM2p5 = city_AQ_data.PM2p5;
-PM10 = city_AQ_data.PM10;
-NO2 = city_AQ_data.NO2;
-O3 = city_AQ_data.O3;
-CO = city_AQ_data.CO;
+%% load station data
+try
+    station_ID = station_city_lookup_table.Station_ID{strcmp(station_city_lookup_table.Station_Name, stationName)};
+catch errMsg
+    error('%s was not a supported station name.', stationName);
+end
+time = stations_AQ_data.(station_ID).time;
+AQI = stations_AQ_data.(station_ID).AQI;
+SO2 = stations_AQ_data.(station_ID).SO2;
+PM2p5 = stations_AQ_data.(station_ID).PM2p5;
+PM10 = stations_AQ_data.(station_ID).PM10;
+NO2 = stations_AQ_data.(station_ID).NO2;
+O3 = stations_AQ_data.(station_ID).O3;
+CO = stations_AQ_data.(station_ID).CO;
 
 % generate datenum array with interval of 2 months
 dates6Months = [];
@@ -262,11 +270,11 @@ xtickangle(45);
 
 legend([s1], 'Location', 'NorthEast');
 
-text(0, 3.1, 'Time series of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 3.1, sprintf('Time series of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'time-series-AQ-wuhan.png'), '-r300');
-saveas(gcf, fullfile(projectDir, 'img', 'time-series-AQ-wuhan.fig'));
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('time-series-AQ-%s.png', stationName)), '-r300');
+saveas(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('time-series-AQ-%s.fig', stationName)));
 
 %% diurnal trend
 figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
@@ -379,12 +387,12 @@ xlim([0, 1]);
 
 legend([b1], 'Location', 'NorthEast');
 
-text(0, 3.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 3.1, sprintf('Dirunal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'diurnal-AQ-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('diurnal-AQ-%s.png', stationName)), '-r300');
 
 %% seasonal trend
 figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
@@ -495,10 +503,10 @@ xlim([0, 5]);
 
 legend([b1], 'Location', 'NorthWest');
 
-text(0, 3.1, 'Seasonal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 3.1, sprintf('Seasonal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-AQ-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-AQ-%s.png', stationName)), '-r300');
 
 %% yearly trend
 figure('Position', [0, 20, 700, 600], 'Units', 'Pixels', 'color', 'w');
@@ -611,12 +619,12 @@ xlim([floor(time(1)), ceil(time(end)) + 1]);
 
 legend([b1], 'Location', 'NorthWest');
 
-text(0, 3.1, 'Annual variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 3.1, sprintf('Annual variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.2, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'yearly-AQ-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('yearly-AQ-%s.png', stationName)), '-r300');
 
 %% seasonal-diurnal variations
 %% PM2p5 and PM10
@@ -700,12 +708,12 @@ xlim([0, 1]);
 
 text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
-text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 2.1, sprintf('Dirunal variations of pollutants in %s',stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-PM-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-PM-%s.png', stationName)), '-r300');
 
 %% AQI
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -784,12 +792,12 @@ xlim([0, 1]);
 
 text(0.1, 0.9, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
-text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 2.1, sprintf('Dirunal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-AQI-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-AQI-%s.png', stationName)), '-r300');
 
 %% SO2
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -868,12 +876,12 @@ xlim([0, 1]);
 
 text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
-text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 2.1, sprintf('Dirunal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-SO2-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-SO2-%s.png', stationName)), '-r300');
 
 %% NO2
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -952,12 +960,12 @@ xlim([0, 1]);
 
 text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
-text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 2.1, sprintf('Dirunal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-NO2-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-NO2-%s.png', stationName)), '-r300');
 
 %% O3
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -1036,12 +1044,12 @@ xlim([0, 1]);
 
 text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
-text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 2.1, sprintf('Dirunal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-O3-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-O3-%s.png', stationName)), '-r300');
 
 %% CO
 figure('Position', [0, 20, 700, 500], 'Units', 'Pixels', 'color', 'w');
@@ -1120,12 +1128,12 @@ xlim([0, 1]);
 
 text(0.1, 0.8, 'Winter', 'FontSize', 12, 'FontWeight', 'Bold', 'Units', 'Normalized');
 
-text(0, 2.1, 'Dirunal variations of pollutants in Wuhan', 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
+text(0, 2.1, sprintf('Dirunal variations of pollutants in %s', stationName), 'FontSize', 12, 'FontWeight', 'Bold', 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(-0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 text(0.5, -0.13, 'Time (LT: hour)', 'FontSize', 10, 'HorizontalAlignment', 'center', 'Units', 'Normalized');
 
 set(findall(gcf, '-Property', 'FontName'), 'FontName', 'Times New Roman');
-export_fig(gcf, fullfile(projectDir, 'img', 'seasonal-diurnal-CO-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('seasonal-diurnal-CO-%s.png', stationName)), '-r300');
 
 %% yearly AQI level
 figure('Position', [0, 30, 500, 700], 'Units', 'Pixels', 'color', 'w');
@@ -1177,4 +1185,4 @@ p6 = pie(ax6, ones(1, nAQILevel));
 colormap(ax6, AQILevel_color);
 legend(AQILevel_label, 'Position', [0.6, 0.06, 0.25, 0.23], 'Orientation', 'Vertical', 'Units', 'Normalized', 'FontWeight', 'Bold');
 
-export_fig(gcf, fullfile(projectDir, 'img', 'AQI-level-wuhan.png'), '-r300');
+export_fig(gcf, fullfile(WAOD_ENVS.RootPath, 'img', sprintf('AQI-level-%s.png', stationName)), '-r300');

@@ -1,12 +1,15 @@
 function [fh, mTimeAvg, AQDataAvg] = displayAQTimeseries(matFilename, tRange, varargin)
 % DISPLAYAQTIMESERIES display timeseries plot of air pollutant.
+%
 % USAGE:
 %    [fh, mTime, AQData] = displayAQTimeseries(matFilename, tRange)
+%
 % INPUTS:
 %    matFilename: char
 %        absolute path of mat data file.
 %    tRange: 2-element array
 %        temporal range of data to be exported.
+%
 % KEYWORDS:
 %    yRange: 2-element array
 %        y-axis range.
@@ -33,13 +36,14 @@ function [fh, mTimeAvg, AQDataAvg] = displayAQTimeseries(matFilename, tRange, va
 %        figure visibility, specified as 'on' (default) or 'off'. 
 %    outputDataFile: char
 %        absolute path of file to export the data. (default: '')
+%
 % OUTPUTS:
 %    fh: figure handle
 %    mTimeAvg: array
 %        measurement time for each data point.
 %    AQDataAvg: array
 %        air pollutant concentration after averaging.
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-05-05: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de

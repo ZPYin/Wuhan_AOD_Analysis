@@ -1,19 +1,23 @@
 function [data, siteLookupTab] = readSiteAQ(dataFile, varargin)
 % READSITEAQ read air pollutants data of every site.
+%
 % USAGE:
 %    [data] = readSiteAQ(dataFile)
+%
 % INPUTS:
 %    dataFile: char
 %        path of the air pollutant data file.
+%
 % KEYWORDS:
 %    siteLookupFile: char
 %    siteList: cell
+%
 % OUTPUTS:
 %    data: table
 %        datetime
 %        s+siteCode
 %        type
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-04-29: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de

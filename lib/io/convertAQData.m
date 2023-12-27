@@ -1,7 +1,9 @@
 function [flag] = convertAQData(dataPath, siteLookupFile, site, flagCity, dateRange, matFilename, varargin)
 % CONVERTAQDATA convert air pollutant data to mat file.
+%
 % USAGE:
 %    [flag] = convertAQData(dataPath, siteLookupFile, site, flagCity, matFilename)
+%
 % INPUTS:
 %    dataPath: char
 %        root path of air pollutant data.
@@ -15,10 +17,11 @@ function [flag] = convertAQData(dataPath, siteLookupFile, site, flagCity, dateRa
 %        date range for air pollutant data.
 %    matFilename: char
 %        absolute path of mat file to be exported to.
+%
 % OUTPUTS:
 %    flag: logical
 %        flag to determine the converting process.
-% EXAMPLE:
+%
 % HISTORY:
 %    2021-05-06: first edition by Zhenping
 % .. Authors: - zhenping@tropos.de

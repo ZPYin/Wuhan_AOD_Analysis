@@ -1,10 +1,7 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(genpath(fullfile(projectDir, 'include')));
-addpath(genpath(fullfile(projectDir, 'lib')));
+global WAOD_ENVS;
 
 %% initialization
-matFilename = fullfile(projectDir, 'data', 'wuhan_AQData.mat');
+matFilename = fullfile(WAOD_ENVS.RootPath, 'data', 'wuhan_AQData.mat');
 imgFile = 'C:\Users\zpyin\Desktop\test_AQ_timeseries.png';
 outputTxtFile1 = 'C:\Users\zpyin\Desktop\PM10_wuhan_raw.txt';
 outputTxtFile2 = 'C:\Users\zpyin\Desktop\PM10_wuhan_monthly.txt';

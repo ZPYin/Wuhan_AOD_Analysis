@@ -1,12 +1,7 @@
-clc; close all;
-projectDir = fileparts(fileparts(mfilename('fullpath')));
-addpath(genpath(fullfile(projectDir, 'include')));
-addpath(genpath(fullfile(projectDir, 'lib')));
-
 %% initialization
-csvFile = 'D:\Data\全国空气质量\v_202101\城市_20180101-20181231\china_cities_20180107.csv';
-siteLookupFile = 'D:\Data\全国空气质量\v_202101\_站点列表\站点列表-2020.12.06起.csv';
-imgFile = 'C:\Users\zpyin\Desktop\test_AQ_map.png';
+csvFile = 'D:\Data\全国空气质量\v_202101\城市_20180101-20181231\china_cities_20180107.csv';   % path to city AQ file.
+siteLookupFile = 'D:\Data\全国空气质量\v_202101\_站点列表\站点列表-2020.12.06起.csv';   % path to city Lookup file.
+imgFile = 'C:\Users\zpyin\Desktop\test_AQ_map.png';   % path for saving results.
 
 %% data visualization
 %
